@@ -1,0 +1,36 @@
+.virtual-viewport {
+    height: 100%;
+}
+
+.mat-table, .mat-expansion-panel {
+    margin: 0 -20px;
+}
+
+.search-input {
+    padding-top: 1.5rem;
+}
+
+.mat-expansion-panel {
+    box-shadow: none;
+    box-sizing: unset;
+}
+
+.mat-expansion-panel-header {
+    height: 40px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-card {
+    margin: 1.5rem -0.25rem 1rem -0.25rem;
+}
+
+.mat-card-image {
+    margin-top: 0 !important;
+    margin-left: -8px;
+    margin-right: -8px;
+    margin-bottom: -8px;
+    width: auto !important;
+}

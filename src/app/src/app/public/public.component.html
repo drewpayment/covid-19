@@ -1,0 +1,144 @@
+
+<div class="container flex flex-column">
+    <div class="row">
+        <div class="twelve columns">
+            <mat-card>
+                <a href="https://flattenthecurve.com/" target="_blank" alt="flattenthecurve.com" matTooltip="Photo Credit: flattenthecurve.com">
+                    <img mat-card-image src="assets/images/health-system-capacity.svg"
+                        alt="Health System Capacity"
+                        class="img-spacer">
+                </a>
+                <mat-card-content>
+                    <p>
+                        Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.
+                    </p>
+                </mat-card-content>
+                <mat-card-footer>
+                    <a mat-button href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html" target="_blank">
+                        <span>More Info</span>
+                        <mat-icon inline="true">open_in_browser</mat-icon>
+                    </a>
+                </mat-card-footer>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <ng-container *ngIf="locations$ | async as locations">
+        <ng-container *ngIf="latest">
+            <div class="row flex-header">
+                <div class="twelve columns">
+                    <mat-expansion-panel [expanded]="false" (opened)="isGlobalViewOpened = true" (closed)="isGlobalViewOpened = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <mat-icon inline="true">language</mat-icon> SARS-COV-2
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-list dense>
+                            <h4 matSubheader>
+                                Updated: {{ latest.updated | date: 'short' }}
+                            </h4>
+                            <mat-list-item>
+                                <mat-icon matListIcon>assignment_turned_in</mat-icon>
+                                <h3 matLine>Confirmed:</h3>
+                                <p matLine>
+                                    {{latest.cases | number}}
+                                </p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon>report_problem</mat-icon>
+                                <h3 matLine>
+                                    Deaths: 
+                                </h3>
+                                <p matLine>
+                                    {{latest.deaths | number}}
+                                </p>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon matListIcon>favorite</mat-icon>
+                                <h3 matLine>
+                                    Recovered: 
+                                </h3>
+                                <p matLine>
+                                    {{latest.recovered | number}}
+                                </p>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </div>
+            </div>
+
+            <!-- US LOCATION DATA MISSING -->
+            <!-- <div class="row">
+                <div class="twelve columns">
+                    <app-map></app-map>
+                </div>
+            </div> -->
+
+            <!-- <div class="row my-6">
+                <div class="twelve columns">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Search</mat-label>
+                        <input matInput type="text" [formControl]="filter" />
+                        <mat-icon *ngIf="!filter.value" matSuffix>search</mat-icon>
+                        <button type="button" mat-icon-button *ngIf="filter.value && filter.value.length"
+                            matSuffix (click)="filter.setValue(null)">
+                            <mat-icon>backspace</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div> -->
+        </ng-container>
+
+        <div class="row flex justify-content-center">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1" (matSortChange)="sortTable($event)"
+                [matSortActive]="'cases'" [matSortDirection]="'desc'">
+
+                <ng-container matColumnDef="country">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+                    <td mat-cell *matCellDef="let item">{{ item.country }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="cases">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Confirmed'">
+                        <mat-icon inline="true">assignment_turned_in</mat-icon>
+                        <span>Cases</span>
+                    </th>
+                    <td mat-cell *matCellDef="let item">
+                        {{ item.cases | number }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deaths">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        <mat-icon inline="true">report_problem</mat-icon>
+                        <span>Deaths</span>
+                    </th>
+                    <td mat-cell *matCellDef="let item">{{ item.deaths | number }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="search">
+                    <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="3">
+                        <mat-form-field appearance="outline" class="search-input">
+                            <mat-label>Search</mat-label>
+                            <input matInput type="text" [formControl]="filter" />
+                            <mat-icon *ngIf="!filter.value" matSuffix>search</mat-icon>
+                            <button type="button" mat-icon-button *ngIf="filter.value && filter.value.length"
+                                matSuffix (click)="filter.setValue(null)">
+                                <mat-icon>backspace</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </th>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="['search']; sticky: true;"></tr>
+                <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+            </table>
+        </div>
+    </ng-container>
+    
+</div>
