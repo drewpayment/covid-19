@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { PublicComponent } from './src/app/public/public.component';
+import { PublicComponent } from './public/public.component';
 import { environment } from '../environments/environment';
 
 const routes: Route[] = [

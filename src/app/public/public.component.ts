@@ -5,10 +5,10 @@ import { Observable, of, BehaviorSubject, merge, zip, combineLatest } from 'rxjs
 import { Sort, MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
-import { CoronaSummary, CoronaCountry } from '../../../models';
-import { AppService } from '../../../app.service';
-import { NovelCovidService } from '../../../novelcovid.service';
-import { LocationService } from '../../../location.service';
+import { CoronaSummary, CoronaCountry } from '../models';
+import { AppService } from '../app.service';
+import { NovelCovidService } from '../novelcovid.service';
+import { LocationService } from '../location.service';
 
 const SORT_COLUMNS = {
     COUNTRY: 'country',
