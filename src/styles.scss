@@ -2,6 +2,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @import '~@angular/material/theming';
+@import './styles/theme';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -12,14 +13,25 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$covid-primary: mat-palette($mat-indigo);
-$covid-accent: mat-palette($mat-pink, A200, A100, A400);
+$covid-primary: mat-palette($mat-red, 900, 700, 500);
+$covid-accent: mat-palette($mat-gray, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$covid-warn: mat-palette($mat-red);
+// $covid-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$covid-theme: mat-light-theme($covid-primary, $covid-accent, $covid-warn);
+$covid-theme: mat-light-theme($covid-primary, $covid-accent);
+
+$theme-maps: (
+    covid-default: (
+        primary-base: $covid-primary,
+        accent-base: $covid-accent
+    )
+);
+
+@import '~angular-material-dynamic-themes/themes-core';
+@include themed-stylesheets($covid-theme);
+// @include make-stylesheets($theme-maps);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -34,5 +46,10 @@ $covid-theme: mat-light-theme($covid-primary, $covid-accent, $covid-warn);
 @import 'styles/layout';
 @import 'styles/util';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}

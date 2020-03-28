@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCardModule } from '@angular/material/card';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { MatCardModule } from '@angular/material/card';
         MatExpansionModule,
         MatMomentDateModule,
         MatCardModule,
+        MatSidenavModule,
     ],
     exports: [
         MatProgressSpinnerModule,
@@ -46,6 +48,7 @@ import { MatCardModule } from '@angular/material/card';
         MatExpansionModule,
         MatMomentDateModule,
         MatCardModule,
+        MatSidenavModule,
     ]
 })
 export class MaterialModule {}

@@ -11,13 +11,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapComponent } from './map/map.component';
 import { PublicComponent } from './public/public.component';
 import { AppRouterModule } from './app-router.module';
+import { VideoIntroComponent } from './video-intro/video-intro.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         InfiniteScrollComponent,
         MapComponent,
-        PublicComponent
+        PublicComponent,
+        VideoIntroComponent
     ],
     imports: [
         CommonModule,

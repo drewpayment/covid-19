@@ -45,7 +45,7 @@
                                 <mat-icon matListIcon>assignment_turned_in</mat-icon>
                                 <h3 matLine>Confirmed:</h3>
                                 <p matLine>
-                                    {{latest.cases | number}}
+                                    {{latest?.cases | number}}
                                 </p>
                             </mat-list-item>
                             <mat-list-item>
@@ -54,7 +54,7 @@
                                     Deaths: 
                                 </h3>
                                 <p matLine>
-                                    {{latest.deaths | number}}
+                                    {{latest?.deaths | number}}
                                 </p>
                             </mat-list-item>
                             <mat-list-item>
@@ -63,7 +63,7 @@
                                     Recovered: 
                                 </h3>
                                 <p matLine>
-                                    {{latest.recovered | number}}
+                                    {{latest?.recovered | number}}
                                 </p>
                             </mat-list-item>
                         </mat-list>
