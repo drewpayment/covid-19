@@ -9,7 +9,7 @@
             </button>
         </div>
         <mat-nav-list>
-            <a mat-list-item [routerLink]="['public']" (click)="nav.toggle()">
+            <a mat-list-item [routerLink]="['']" (click)="nav.toggle()">
                 <mat-icon matListIcon>near_me</mat-icon>
                 <span>Home</span>
             </a>
@@ -24,7 +24,7 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary">
+        <mat-toolbar color="primary" class="mat-elevation-z8 mb-7">
             <button type="button" mat-icon-button (click)="nav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>

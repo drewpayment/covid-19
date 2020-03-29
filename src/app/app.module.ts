@@ -12,6 +12,12 @@ import { MapComponent } from './map/map.component';
 import { PublicComponent } from './public/public.component';
 import { AppRouterModule } from './app-router.module';
 import { VideoIntroComponent } from './video-intro/video-intro.component';
+import { CountryDetailComponent } from './country-detail/country-detail.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
     declarations: [
@@ -19,7 +25,8 @@ import { VideoIntroComponent } from './video-intro/video-intro.component';
         InfiniteScrollComponent,
         MapComponent,
         PublicComponent,
-        VideoIntroComponent
+        VideoIntroComponent,
+        CountryDetailComponent
     ],
     imports: [
         CommonModule,
@@ -29,6 +36,8 @@ import { VideoIntroComponent } from './video-intro/video-intro.component';
         MaterialModule,
         FormsModule,
         ReactiveFormsModule,
+        NgxChartsModule,
+        PlotlyModule,
 
         AppRouterModule
     ],

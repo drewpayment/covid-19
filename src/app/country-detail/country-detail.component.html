@@ -1,0 +1,66 @@
+
+<ng-container *ngIf="chartData$|async as data">
+    <div class="container">
+        <div class="row" *ngIf="country != null">
+            <div class="six columns">
+                <h2 class="header">
+                    <img [src]="country?.countryInfo?.flag" [alt]="country?.country" class="img-small">
+                    {{ country?.country }}
+                    <div>Cases: {{ country?.cases | number }}</div>
+                    <div>Active: {{ country?.active | number }}</div>
+                    <div>Critical: {{ country?.critical | number }}</div>
+                    <div>Deaths: {{ country?.deaths | number }}</div>
+                    <div [matTooltip]="country?.recovered">Recovered: {{ divide(country?.recovered, country?.cases) | percent }}</div>
+                    <div [class.font-weight-bold]="isBoldWeight(country)">
+                        Mortality: {{ divide(country?.deaths, country?.cases) | percent }}
+                    </div>
+                </h2>
+            </div>
+            <div class="six columns">
+                <h2 class="header">
+                    <div>Today</div>
+                    <div>Cases: {{ country?.todayCases | number }}</div>
+                    <div>Deaths: {{ country?.todayDeaths | number }}</div>
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="twelve columns">
+                <plotly-plot #plt
+                    [data]="plotlyGraph.data"
+                    [layout]="plotlyGraph.layout"
+                    [config]="plotlyGraph.config"
+                ></plotly-plot>
+            </div>
+            <!-- <div class="six columns">
+                <ngx-charts-line-chart
+                    [legend]="legend"
+                    [view]="[350, 270]"
+                    [showXAxisLabel]="showXAxisLabel"
+                    [showYAxisLabel]="showYAxisLabel"
+                    [xAxis]="xAxis"
+                    [yAxis]="yAxis"
+                    [timeline]="false"
+                    [results]="data"
+                    [legendTitle]="''"
+                    legendPosition="top"
+                    [yAxisTickFormatting]="yAxisTickFormatting"
+                    [activeEntries]="activeEntries"
+                    (select)="onSelect($event)"
+                    (activate)="onActivate($event)"
+                    (deactivate)="onDeactivate($event)"
+                ></ngx-charts-line-chart>
+            </div> -->
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="row" *ngIf="summary$|async as summary">
+            <div class="twelve columns">
+                <p class="font-color-accent">
+                    Last Updated: {{ summary?.updated | date: 'short' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</ng-container>

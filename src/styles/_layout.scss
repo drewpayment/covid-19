@@ -45,10 +45,22 @@
     flex: 0 1 auto;
 }
 
+.flex-grow-1 {
+    flex: 1 0 auto;
+}
+
+.flex-shrink-1 {
+    flex: 0 1 auto;
+}
+
 .row.flex-content {
     flex: 1 1 auto;
 }
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.ngx-charts-outer {
+    background-color: #FFF;
 }

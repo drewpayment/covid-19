@@ -9,6 +9,8 @@ import { CoronaSummary, CoronaCountry } from '../models';
 import { AppService } from '../app.service';
 import { NovelCovidService } from '../novelcovid.service';
 import { LocationService } from '../location.service';
+import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 const SORT_COLUMNS = {
     COUNTRY: 'country',
@@ -40,10 +42,28 @@ export class PublicComponent implements OnInit {
     sortStrategy = new BehaviorSubject<Sort>({ active: 'cases', direction: 'desc' });
     filter = new FormControl();
     isGlobalViewOpened = true;
+    isWebViewEnabled = false;
 
-    constructor(private service: AppService, private covid: NovelCovidService, private location: LocationService) {}
+    constructor(
+        private service: AppService, 
+        private covid: NovelCovidService, 
+        private location: LocationService,
+        private router: Router,
+        private bo: BreakpointObserver
+    ) {}
 
     ngOnInit() {
+        this.bo.observe([ Breakpoints.HandsetLandscape, Breakpoints.Web ])
+            .subscribe(state => {
+                this.isWebViewEnabled = state.matches;
+
+                if (state.matches) {
+                    this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
+                } else {
+                    this.displayColumns = ['country', 'cases', 'deaths'];
+                }
+            });
+        
         this.dataSource.sort = this.sort;
 
         this.locations$ = combineLatest([
@@ -104,6 +124,11 @@ export class PublicComponent implements OnInit {
 
     sortTable(event: Sort) {
         this.sortStrategy.next(event);
+    }
+
+    goToDetail(country: CoronaCountry) {
+        console.dir(country);
+        this.router.navigate(['country', country.countryInfo._id]);
     }
 
     private normalize(value: string): string {

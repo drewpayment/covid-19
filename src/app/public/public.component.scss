@@ -1,3 +1,5 @@
+@import '../../styles/theme';
+
 .virtual-viewport {
     height: 100%;
 }
@@ -23,14 +25,28 @@
     width: 100%;
 }
 
-.mat-card {
-    margin: 1.5rem -0.25rem 1rem -0.25rem;
+@include mat-extend {
+    .hero-container {
+        color: material-get(accent-color);
+
+        * {
+            color: material-get(accent-color);
+        }
+    }
 }
 
-.mat-card-image {
-    margin-top: 0 !important;
-    margin-left: -8px;
-    margin-right: -8px;
-    margin-bottom: -8px;
-    width: auto !important;
+.mat-cell, .mat-header-cell {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+tr.table-row-item {
+    &:hover {
+        cursor: pointer;
+        background: rgb(227,227,227);
+
+        * {
+            font-weight: bold;
+        }
+    }
 }

@@ -1,13 +1,17 @@
 
-$max: 6;
+$max: 7;
 $offset: 0.25;
 $unit: 'rem';
-$rems: '0.25', '0.5', '0.75', '1', '1.25', '1.5';
+$rems: '0.25', '0.5', '0.75', '1', '1.25', '1.5', '2';
 
 @mixin space-loop() {
-    $i: 1;
+    $i: 0;
     @while $i <= $max {
-        $rv: nth($rems, $i);
+        $rv: 0;
+        @if $i > 0 {
+            $rv: nth($rems, $i);
+        } 
+
         .m-#{$i} {
             margin: #{$rv + $unit};
         }
@@ -26,6 +30,10 @@ $rems: '0.25', '0.5', '0.75', '1', '1.25', '1.5';
 
         .my-#{$i} {
             margin: #{$rv + $unit} 0;
+        }
+
+        .mb-#{$i} {
+            margin-bottom: #{$rv + $unit};
         }
 
         .p-#{$i} {

@@ -5,7 +5,6 @@ import { shareReplay } from 'rxjs/operators';
 import { CovidLocation, CovidLocations, CoronaCountry } from './models';
 
 const JOHN_HOPKINS_API = 'https://coronavirus-tracker-api.herokuapp.com/v2';
-const WORLD_METERS = 'https://corona.lmao.ninja';
 
 @Injectable({
     providedIn: 'root'

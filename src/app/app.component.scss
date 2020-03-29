@@ -4,7 +4,15 @@
 }
 
 .mat-sidenav {
-    width: 100%;
+    
+    @media (max-width: 599px) {
+        width: 100%;
+    } 
+
+    @media (min-width: 1024px) {
+        min-width: 25vw;
+    }
+
 }
 
 .nav-header {

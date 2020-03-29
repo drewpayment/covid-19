@@ -1,37 +1,109 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
 $vs-red: (
-    50: #ffebee,
-    100: #ffcdd2,
-    200: #ef9a9a,
-    300: #e57373,
-    400: #ef5350,
-    500: #f44336,
-    600: #e53935,
-    700: #d32f2f,
-    800: #c62828,
-    900: #b71c1c,
-    A100: #ff8a80,
-    A200: #ff5252,
-    A400: #ff1744,
-    A700: #d50000,
-    contrast: (
-        50: $dark-primary-text,
-        100: $dark-primary-text,
-        200: $dark-primary-text,
-        300: $dark-primary-text,
-        400: $dark-primary-text,
-        500: $light-primary-text,
-        600: $light-primary-text,
-        700: $light-primary-text,
-        800: $light-primary-text,
-        900: $light-primary-text,
-        A100: $dark-primary-text,
-        A200: $light-primary-text,
-        A400: $light-primary-text,
-        A700: $light-primary-text,
-    )
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f44336,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  A100: #ff8a80,
+  A200: #ff5252,
+  A400: #ff1744,
+  A700: #d50000,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
 );
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$covid-primary: mat-palette($mat-red, 900, 700, 500);
+$covid-accent: mat-palette($mat-gray, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+// $covid-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$covid-theme: mat-light-theme($covid-primary, $covid-accent);
+
+$theme-maps: (
+  covid-default: (
+    primary-base: $covid-primary,
+    accent-base: $covid-accent,
+  ),
+);
+
+@function material-get($key) {
+  $primary: map-get($covid-theme, primary);
+  $accent: map-get($covid-theme, accent);
+  $warn: map-get($covid-theme, warn);
+  $background: map-get($covid-theme, background);
+  $foreground: map-get($covid-theme, foreground);
+  $result: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+    background: $background,
+    foreground: $foreground,
+    primary-color: mat-color($primary),
+    accent-color: mat-color($accent),
+    status-bar-color: map-get($background, "status-bar"),
+    app-bar-color: map-get($background, "app-bar"),
+    background-color: map-get($background, "background"),
+    hover-color: map-get($background, "hover"),
+    card-color: map-get($background, "card"),
+    dialog-color: map-get($background, "dialog"),
+    disabled-button-color: map-get($background, "disabled-button"),
+    raised-button-color: map-get($background, "raised-button"),
+    focused-button-color: map-get($background, "focused-button"),
+    selected-button-color: map-get($background, "selected-button"),
+    selected-disabled-button-color: map-get($background, "selected-disabled-button"),
+    disabled-button-toggle-color: map-get($background, "disabled-button-toggle"),
+    unselected-chip-color: map-get($background, "unselected-chip"),
+    disabled-list-option-color: map-get($background, "disabled-list-option"),
+    base-color: map-get($foreground, "base"),
+    divider-color: map-get($foreground, "divider"),
+    dividers-color: map-get($foreground, "dividers"),
+    disabled-color: map-get($foreground, "disabled"),
+    // disabled-button-color:   map-get($foreground, 'disabled-button'  ),
+      disabled-text-color: map-get($foreground, "disabled-text"),
+    elevation-color: map-get($foreground, "elevation"),
+    hint-text-color: map-get($foreground, "hint-text"),
+    secondary-text-color: map-get($foreground, "secondary-text"),
+    icon-color: map-get($foreground, "icon"),
+    icons-color: map-get($foreground, "icons"),
+    text-color: map-get($foreground, "text"),
+    slider-min-color: map-get($foreground, "slider-min"),
+    slider-off-color: map-get($foreground, "slider-off"),
+    slider-off-active-color: map-get($foreground, "slider-off-active"),
+  );
+
+  @return map-get($result, $key);
+}
 
 /**
  * // IMPORTANT NOTE: This mixin is just for other elements (non-material elements) that you want use material themes 
@@ -48,79 +120,147 @@ $vs-red: (
  *     is-dark: boolean,
  *   }
  */
- @mixin themed-stylesheets($mat-theme) {
-  
-    $primary: map-get($mat-theme, primary);
-    $accent: map-get($mat-theme, accent);
-    //$warn: map-get($mat-theme, warn);
-    $background: map-get($mat-theme, background);
-    $foreground: map-get($mat-theme, foreground);
-  
-    $primary-color: mat-color($primary);
-    $accent-color: mat-color($accent);
-    //$warn-color: mat-color($warn);
-  
-    //// Background colors:
-    $status-bar-color:               map-get($background, 'status-bar'              );
-    $app-bar-color:                  map-get($background, 'app-bar'                 );
-    $background-color:               map-get($background, 'background'              );
-    $hover-color:                    map-get($background, 'hover'                   );
-    $card-color:                     map-get($background, 'card'                    );
-    $dialog-color:                   map-get($background, 'dialog'                  );
-    $disabled-button-color:          map-get($background, 'disabled-button'         );
-    $raised-button-color:            map-get($background, 'raised-button'           );
-    $focused-button-color:           map-get($background, 'focused-button'          );
-    $selected-button-color:          map-get($background, 'selected-button'         );
-    $selected-disabled-button-color: map-get($background, 'selected-disabled-button');
-    $disabled-button-toggle-color:   map-get($background, 'disabled-button-toggle'  );
-    $unselected-chip-color:          map-get($background, 'unselected-chip'         );
-    $disabled-list-option-color:     map-get($background, 'disabled-list-option'    );
-  
-    //// Foreground colors:
-    // $base-color:              map-get($foreground, 'base'             );
-    $divider-color:           map-get($foreground, 'divider'          );
-    // $dividers-color:          map-get($foreground, 'dividers'         );
-    // $disabled-color:          map-get($foreground, 'disabled'         );
-    // $disabled-button-color:   map-get($foreground, 'disabled-button'  );
-    // $disabled-text-color:     map-get($foreground, 'disabled-text'    );
-    // $elevation-color:         map-get($foreground, 'elevation'        );
-    // $hint-text-color:         map-get($foreground, 'hint-text'        );
-    // $secondary-text-color:    map-get($foreground, 'secondary-text'   );
-    // $icon-color:              map-get($foreground, 'icon'             );
-    // $icons-color:             map-get($foreground, 'icons'            );
-    $text-color:              map-get($foreground, 'text'             );
-    // $slider-min-color:        map-get($foreground, 'slider-min'       );
-    // $slider-off-color:        map-get($foreground, 'slider-off'       );
-    // $slider-off-active-color: map-get($foreground, 'slider-off-active');
-  
-    //$is-dark: map-get($mat-theme, is-dark);
-  
-    // Define themed-stylesheets here:
-    
-    // custom classes
-    .bg-primary {
-      background-color: $primary-color;
+@mixin themed-stylesheets($mat-theme) {
+  $primary: map-get($mat-theme, primary);
+  $accent: map-get($mat-theme, accent);
+  //$warn: map-get($mat-theme, warn);
+  $background: map-get($mat-theme, background);
+  $foreground: map-get($mat-theme, foreground);
+
+  $primary-color: mat-color($primary);
+  $accent-color: mat-color($accent);
+  //$warn-color: mat-color($warn);
+
+  //// Background colors:
+  $status-bar-color: map-get($background, "status-bar");
+  $app-bar-color: map-get($background, "app-bar");
+  $background-color: map-get($background, "background");
+  $hover-color: map-get($background, "hover");
+  $card-color: map-get($background, "card");
+  $dialog-color: map-get($background, "dialog");
+  $disabled-button-color: map-get($background, "disabled-button");
+  $raised-button-color: map-get($background, "raised-button");
+  $focused-button-color: map-get($background, "focused-button");
+  $selected-button-color: map-get($background, "selected-button");
+  $selected-disabled-button-color: map-get($background, "selected-disabled-button");
+  $disabled-button-toggle-color: map-get($background, "disabled-button-toggle");
+  $unselected-chip-color: map-get($background, "unselected-chip");
+  $disabled-list-option-color: map-get($background, "disabled-list-option");
+
+  //// Foreground colors:
+  $base-color: map-get($foreground, "base");
+  $divider-color: map-get($foreground, "divider");
+  $dividers-color: map-get($foreground, "dividers");
+  $disabled-color: map-get($foreground, "disabled");
+  $disabled-button-color: map-get($foreground, "disabled-button");
+  $disabled-text-color: map-get($foreground, "disabled-text");
+  $elevation-color: map-get($foreground, "elevation");
+  $hint-text-color: map-get($foreground, "hint-text");
+  $secondary-text-color: map-get($foreground, "secondary-text");
+  $icon-color: map-get($foreground, "icon");
+  $icons-color: map-get($foreground, "icons");
+  $text-color: map-get($foreground, "text");
+  $slider-min-color: map-get($foreground, "slider-min");
+  $slider-off-color: map-get($foreground, "slider-off");
+  $slider-off-active-color: map-get($foreground, "slider-off-active");
+
+  //$is-dark: map-get($mat-theme, is-dark);
+
+  // Define themed-stylesheets here:
+
+  // custom classes
+  .bg-primary {
+    background: rgb(183, 28, 28);
+    background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+    color: $accent-color;
+
+    * {
       color: $accent-color;
-
-      * {
-          color: $accent-color;
-      }
-    }
-
-    .mat-drawer-inner-container {
-        @extend .bg-primary !optional;
-    }
-
-    .nav-header {
-        display: flex;
-        align-items: baseline;
-        padding: 1rem;
-        border-bottom: medium solid $divider-color;
-        background-color: map-get($vs-red, 900) !important;
-    }    
-
-    .mat-drawer-container {
-        height: 100%;
-        background-color: $primary-color !important;
     }
   }
+
+  .mat-drawer-inner-container {
+    @extend .bg-primary !optional;
+  }
+
+  .nav-header {
+      @extend .mat-elevation-z8;
+    display: flex;
+    align-items: baseline;
+    background-color: map-get($vs-red, 900) !important;
+  }
+
+  .mat-drawer-container {
+      height: auto;
+    min-height: 100%;
+    // background: transparent !important;
+    // background-color: $primary-color !important;
+    background: rgb(183, 28, 28);
+    background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+  }
+}
+
+@mixin mat-extend() {
+  $mat-theme: $covid-theme;
+  $primary: map-get($mat-theme, primary);
+  $accent: map-get($mat-theme, accent);
+  //$warn: map-get($mat-theme, warn);
+  $background: map-get($mat-theme, background);
+  $foreground: map-get($mat-theme, foreground);
+
+  $primary-color: mat-color($primary);
+  $accent-color: mat-color($accent);
+  //$warn-color: mat-color($warn);
+
+  //// Background colors:
+  $status-bar-color: map-get($background, "status-bar");
+  $app-bar-color: map-get($background, "app-bar");
+  $background-color: map-get($background, "background");
+  $hover-color: map-get($background, "hover");
+  $card-color: map-get($background, "card");
+  $dialog-color: map-get($background, "dialog");
+  $disabled-button-color: map-get($background, "disabled-button");
+  $raised-button-color: map-get($background, "raised-button");
+  $focused-button-color: map-get($background, "focused-button");
+  $selected-button-color: map-get($background, "selected-button");
+  $selected-disabled-button-color: map-get($background, "selected-disabled-button");
+  $disabled-button-toggle-color: map-get($background, "disabled-button-toggle");
+  $unselected-chip-color: map-get($background, "unselected-chip");
+  $disabled-list-option-color: map-get($background, "disabled-list-option");
+
+  //// Foreground colors:
+  // $base-color:              map-get($foreground, 'base'             );
+  $divider-color: map-get($foreground, "divider");
+  // $dividers-color:          map-get($foreground, 'dividers'         );
+  // $disabled-color:          map-get($foreground, 'disabled'         );
+  // $disabled-button-color:   map-get($foreground, 'disabled-button'  );
+  // $disabled-text-color:     map-get($foreground, 'disabled-text'    );
+  // $elevation-color:         map-get($foreground, 'elevation'        );
+  // $hint-text-color:         map-get($foreground, 'hint-text'        );
+  // $secondary-text-color:    map-get($foreground, 'secondary-text'   );
+  // $icon-color:              map-get($foreground, 'icon'             );
+  // $icons-color:             map-get($foreground, 'icons'            );
+  $text-color: map-get($foreground, "text");
+  // $slider-min-color:        map-get($foreground, 'slider-min'       );
+  // $slider-off-color:        map-get($foreground, 'slider-off'       );
+  // $slider-off-active-color: map-get($foreground, 'slider-off-active');
+
+  //$is-dark: map-get($mat-theme, is-dark);
+
+  // Define themed-stylesheets here:
+
+  // custom classes
+  @content;
+}
+
+@import "~angular-material-dynamic-themes/themes-core";
+@include themed-stylesheets($covid-theme);
+// @include make-stylesheets($theme-maps);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($covid-theme);
+// @include mat-core-theme($covid-theme);
+// @include mat-icon-theme($covid-theme);
+// @include mat-table-theme($covid-theme);

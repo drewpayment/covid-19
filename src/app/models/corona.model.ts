@@ -41,3 +41,22 @@ export interface CoronaCountryInfo {
     long: number;
     flag: string;
 }
+
+export interface CountryHistorical {
+    country: string;
+    timeline: CountryHistoricalTimelineCategories;
+}
+
+export interface CountryHistoricalTimelineCategories {
+    cases: CountryHistoricalTimelineDetail;
+    deaths: CountryHistoricalTimelineDetail;
+}
+
+/**
+ * key: Date string
+ * value: number
+ * e.g. "01/01/1900": 0
+ */
+export interface CountryHistoricalTimelineDetail {
+    [key: string]: any;
+}

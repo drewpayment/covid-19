@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input } from '@angular/core';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import { Vector } from 'ol/source';
@@ -10,10 +10,16 @@ import { fromLonLat } from 'ol/proj';
 import WebGLPointsLayer from 'ol/layer/WebGLPoints';
 import Heatmap from 'ol/layer/Heatmap';
 import { AppService } from '../app.service';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
+import { Subscription, of } from 'rxjs';
 import { CovidLocation, CoronaCountry } from '../models';
 import { LocationService } from '../location.service';
+import { NovelCovidService } from '../novelcovid.service';
+
+interface LatLon {
+    lat: number;
+    lon: number;
+}
 
 @Component({
     selector: 'app-map',
@@ -22,11 +28,17 @@ import { LocationService } from '../location.service';
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    @Input() countries: CoronaCountry[];
     pos: Position;
     map: Map;
     locSub: Subscription;
+    isSingleLocation = false;
 
-    constructor(private service: AppService, private location: LocationService) { }
+    constructor(
+        private service: AppService, 
+        private location: LocationService, 
+        private novel: NovelCovidService
+    ) { }
 
     ngOnInit() {
         
@@ -35,8 +47,23 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         this.locSub = this.service.getCurrentPosition()
             .pipe(
-                switchMap(pos => {
-                    this.pos = pos;
+                tap(pos => this.pos = pos),
+                switchMap(_ => this.countries && this.countries.length
+                    ? of(this.countries) 
+                    : this.service.getMappableLocations()),
+                tap(countries => {
+                    let lat: number;
+                    let lon: number;
+
+                    if (countries.length > 1) {
+                        lat = this.pos.coords.latitude;
+                        lon = this.pos.coords.longitude;
+                    } else {
+                        this.isSingleLocation = true;
+                        const con = countries[0];
+                        lat = con.countryInfo.lat;
+                        lon = con.countryInfo.long;
+                    }
 
                     this.map = new Map({
                         layers: [
@@ -45,13 +72,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
                             })
                         ],
                         view: new View({
-                            center: fromLonLat([this.pos.coords.longitude, this.pos.coords.latitude]),
+                            center: fromLonLat([lon, lat]),
                             zoom: 3,
                         }),
                         target: 'map'
                     });
-
-                    return this.service.getMappableLocations();
                 })
             )
             .subscribe(locs => this.loadMapFeatures(locs));
@@ -59,6 +84,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         if (!this.locSub.closed) this.locSub.unsubscribe();
+        if (this.map) this.map = null;
     }
 
     private loadMapFeatures(locations: CoronaCountry[]) {
@@ -120,17 +146,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             // attributions: 'Bunch of smart mfers'
         });
 
-        console.dir(this.map);
+        // while (this.map.getLayers().length > 1) {
+        //     const layers = this.map.getLayers();
+        //     this.map.removeLayer(layers[layers.length - 1]);
+        // }
 
-        while (this.map.getLayers().length > 1) {
-            const layers = this.map.getLayers();
-            this.map.removeLayer(layers[layers.length - 1]);
-        }
+        // const radius = this.isSingleLocation ? 50 : 6;
+        // const blur = this.isSingleLocation ? 25 : 6;
 
         // this.map.addLayer(new Heatmap({
         //     source: vectorSource,
-        //     radius: 6,
-        //     blur: 6
+        //     radius,
+        //     blur
         // }));
         this.map.addLayer(new WebGLPointsLayer({
             style,
