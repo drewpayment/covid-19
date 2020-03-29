@@ -28,7 +28,7 @@
                         "aot": true,
                         "assets": [
                             "src/favicon.ico",
-                            "src/assets",
+                            "src/assets"
                         ],
                         "styles": [
                             "node_modules/material-design-icons/iconfont/material-icons.css",
@@ -63,8 +63,8 @@
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "6kb",
-                                    "maximumError": "10kb"
+                                    "maximumWarning": "65kb",
+                                    "maximumError": "70kb"
                                 }
                             ]
                         }
