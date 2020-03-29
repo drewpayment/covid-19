@@ -32,7 +32,6 @@
                         ],
                         "styles": [
                             "node_modules/material-design-icons/iconfont/material-icons.css",
-                            "node_modules/ol/ol.css",
                             "src/styles.scss"
                         ],
                         "scripts": [
@@ -58,8 +57,8 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "7mb",
+                                    "maximumError": "10mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",

@@ -9,7 +9,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "heroku-postbuild": "ng build --prod",
-    "deploy": "git push origin master && git push heroku master"
+    "deploy": "git push origin master && git push heroku master",
+    "generate:prod:stats": "./node_modules/.bin/ng build --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/stats.json",
+    "build:stats": "npm run generate:prod:stats && npm run analyze"
   },
   "engines": {
     "node": "12.12.0",
@@ -29,7 +32,6 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
-    "@swimlane/ngx-charts": "^13.0.2",
     "@tensorflow/tfjs": "^1.7.0",
     "@tensorflow/tfjs-node": "^1.7.0",
     "angular-material-dynamic-themes": "^1.0.4",
@@ -39,7 +41,6 @@
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
     "novelcovid": "^1.0.6",
-    "ol": "^6.2.1",
     "plotly.js": "^1.52.3",
     "rxjs": "~6.5.4",
     "skeleton-scss": "^2.0.4",
@@ -64,6 +65,7 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.7.5"
+    "typescript": "~3.7.5",
+    "webpack-bundle-analyzer": "^3.6.1"
   }
 }
