@@ -48,7 +48,7 @@ $covid-accent: mat-palette($mat-gray, A200, A100, A400);
 // $covid-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$covid-theme: mat-light-theme($covid-primary, $covid-accent);
+$covid-theme: mat-dark-theme($covid-primary, $covid-accent);
 
 $theme-maps: (
   covid-default: (
@@ -172,10 +172,10 @@ $theme-maps: (
   .bg-primary {
     background: rgb(183, 28, 28);
     background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
-    color: $accent-color;
+    color: $accent-color !important;
 
     * {
-      color: $accent-color;
+      color: $accent-color !important;
     }
   }
 
@@ -184,14 +184,14 @@ $theme-maps: (
   }
 
   .nav-header {
-      @extend .mat-elevation-z8;
+    @extend .mat-elevation-z8;
     display: flex;
     align-items: baseline;
     background-color: map-get($vs-red, 900) !important;
   }
 
   .mat-drawer-container {
-      height: auto;
+    height: auto;
     min-height: 100%;
     // background: transparent !important;
     // background-color: $primary-color !important;

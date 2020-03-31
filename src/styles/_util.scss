@@ -1,4 +1,19 @@
 
+.space-50 {
+    margin: 25px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 $max: 7;
 $offset: 0.25;
 $unit: 'rem';
@@ -38,6 +53,10 @@ $rems: '0.25', '0.5', '0.75', '1', '1.25', '1.5', '2';
 
         .p-#{$i} {
             padding: #{$rv + $unit};
+        }
+
+        .pb-#{$i} {
+            padding-bottom: #{$rv + $unit};
         }
 
         .pl-#{$i} {

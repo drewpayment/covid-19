@@ -43,6 +43,7 @@ export class PublicComponent implements OnInit {
     filter = new FormControl();
     isGlobalViewOpened = true;
     isWebViewEnabled = false;
+    isMobilePotrait = false;
 
     constructor(
         private service: AppService, 
@@ -61,6 +62,7 @@ export class PublicComponent implements OnInit {
                     this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
                 } else {
                     this.displayColumns = ['country', 'cases', 'deaths'];
+                    this.isMobilePotrait = state.breakpoints[Breakpoints.HandsetPortrait];
                 }
             });
         
@@ -127,7 +129,6 @@ export class PublicComponent implements OnInit {
     }
 
     goToDetail(country: CoronaCountry) {
-        console.dir(country);
         this.router.navigate(['country', country.countryInfo._id]);
     }
 

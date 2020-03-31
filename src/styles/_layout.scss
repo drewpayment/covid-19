@@ -28,7 +28,7 @@
 
 
 .flex {
-    display: flex;
+    display: flex !important;
     // flex-flow: column;
     height: 100%;
 
@@ -63,4 +63,24 @@
 
 .ngx-charts-outer {
     background-color: #FFF;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.css-grid {
+    display: grid;
+
+    &.justify-content-center {
+        justify-content: center;
+
+        * {
+            justify-self: center;
+        }
+    }
+}
+
+.css-grid-inline {
+    display: inline-grid !important;
 }

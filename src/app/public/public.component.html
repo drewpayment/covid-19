@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container pb-7">
     <div class="row" *ngIf="isLoading">
         <div class="twelve columns">
             <mat-spinner></mat-spinner>
@@ -60,8 +60,14 @@
             </div>
         </ng-container>
 
+        <div class="row flex justify-content-center mb-4">
+            <div class="nine columns">
+                <app-countries-graph></app-countries-graph>
+            </div>
+        </div>
+
         <div class="row flex justify-content-center">
-            <div class="u-center-block">
+            <div [class.overflow-scroll-table]="isWebViewEnabled && !isMobilePotrait">
                 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1" (matSortChange)="sortTable($event)"
                     [matSortActive]="'cases'" [matSortDirection]="'desc'">
 

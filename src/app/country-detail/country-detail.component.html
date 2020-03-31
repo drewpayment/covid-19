@@ -1,61 +1,90 @@
 
 <ng-container *ngIf="chartData$|async as data">
-    <div class="container">
+    <div class="container" *ngIf="summary$|async as summary">
         <div class="row" *ngIf="country != null">
-            <div class="six columns">
-                <h2 class="header">
+            <div class="twelve columns"
+                [class.css-grid]="!isMobile"
+                [class.justify-content-center]="!isMobile"
+            >
+                <h1 class="header">
                     <img [src]="country?.countryInfo?.flag" [alt]="country?.country" class="img-small">
-                    {{ country?.country }}
-                    <div>Cases: {{ country?.cases | number }}</div>
-                    <div>Active: {{ country?.active | number }}</div>
-                    <div>Critical: {{ country?.critical | number }}</div>
-                    <div>Deaths: {{ country?.deaths | number }}</div>
-                    <div [matTooltip]="country?.recovered">Recovered: {{ divide(country?.recovered, country?.cases) | percent }}</div>
-                    <div [class.font-weight-bold]="isBoldWeight(country)">
-                        Mortality: {{ divide(country?.deaths, country?.cases) | percent }}
-                    </div>
-                </h2>
-            </div>
-            <div class="six columns">
-                <h2 class="header">
-                    <div>Today</div>
-                    <div>Cases: {{ country?.todayCases | number }}</div>
-                    <div>Deaths: {{ country?.todayDeaths | number }}</div>
-                </h2>
+                    <span>{{ country?.country }}</span>
+                </h1>
+                <mat-list [class.flex]="!isMobile">
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>assignment_turned_in</mat-icon>
+                        <div mat-line>Cases: {{ country?.cases | number }}</div>
+                        <div mat-line>Today: {{ country?.todayCases | number }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>report_problem</mat-icon>
+                        <div mat-line>Deaths: {{ country?.deaths | number }}</div>
+                        <div mat-line>Today: {{ country?.todayDeaths | number }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>done</mat-icon>
+                        <div mat-line>Active: {{ country?.active | number }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>disc_full</mat-icon>
+                        <div mat-line>Critical: {{ country?.critical | number }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item [matTooltip]="(country?.recovered | number) + ' Recovered'">
+                        <mat-icon mat-list-icon>thumb_up</mat-icon>
+                        <div mat-line>Recovered: {{ divide(country?.recovered, country?.cases) | percent }}</div>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>remove_circle</mat-icon>
+                        <div mat-line [class.font-weight-bold]="isBoldWeight(country)">
+                            Mortality: {{ divide(country?.deaths, country?.cases) | percent }}
+                        </div>
+                    </mat-list-item>
+                </mat-list>
             </div>
         </div>
 
         <div class="row">
+            <div class="six columns flex" *ngIf="showStateControls">
+                <mat-form-field class="pr-2">
+                    <mat-label>Currently Showing: </mat-label>
+                    <mat-select [formControl]="graphSelect">
+                        <mat-option *ngFor="let go of graphingOptions" [value]="go.value">
+                            {{ go.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="pl-2" *ngIf="graphSelect?.value == 2">
+                    <mat-label>State</mat-label>
+                    <mat-select [formControl]="state" (selectionChange)="onStateOptionChange($event)">
+                        <mat-option *ngFor="let s of stateOptions" [value]="s.abbr">
+                            {{ s.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div class="twelve columns">
                 <plotly-plot #plt
+                    *ngIf="graphSelect?.value == 0"
                     [data]="plotlyGraph.data"
                     [layout]="plotlyGraph.layout"
                     [config]="plotlyGraph.config"
                 ></plotly-plot>
+
+                <p *ngIf="graphSelect?.value == 1">
+                    Coming Soon...
+                </p>
+                <!-- ADD HORIZONTAL BAR CHART BY STATES HERE... 
+                https://plotly.com/javascript/horizontal-bar-charts/ -->
             </div>
-            <!-- <div class="six columns">
-                <ngx-charts-line-chart
-                    [legend]="legend"
-                    [view]="[350, 270]"
-                    [showXAxisLabel]="showXAxisLabel"
-                    [showYAxisLabel]="showYAxisLabel"
-                    [xAxis]="xAxis"
-                    [yAxis]="yAxis"
-                    [timeline]="false"
-                    [results]="data"
-                    [legendTitle]="''"
-                    legendPosition="top"
-                    [yAxisTickFormatting]="yAxisTickFormatting"
-                    [activeEntries]="activeEntries"
-                    (select)="onSelect($event)"
-                    (activate)="onActivate($event)"
-                    (deactivate)="onDeactivate($event)"
-                ></ngx-charts-line-chart>
-            </div> -->
         </div>
         
-        <!-- FOOTER -->
-        <div class="row" *ngIf="summary$|async as summary">
+        <div class="row">
             <div class="twelve columns">
                 <p class="font-color-accent">
                     Last Updated: {{ summary?.updated | date: 'short' }}

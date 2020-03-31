@@ -4,3 +4,10 @@
     text-align: center;
     color: material-get(accent-color);
 }
+
+.container {
+
+    * {
+        color: material-get(accent-color);
+    }
+}

@@ -3,7 +3,7 @@ import * as covid from 'novelcovid';
 import { CoronaSummary, CoronaCountry, CoronaState, CountryHistorical } from './models';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import * as moment from 'moment';
-import { switchMap, map, shareReplay } from 'rxjs/operators';
+import { switchMap, map, shareReplay, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 interface CacheInfo {
@@ -13,13 +13,17 @@ interface CacheInfo {
     summaryUpdated: moment.Moment | null;
     hasSummary: boolean;
     summary: BehaviorSubject<CoronaSummary>;
+    hasHistoricalCountries: boolean;
+    historicalCountries: BehaviorSubject<CountryHistorical[]>;
+    historicalCountriesUpdated: moment.Moment | null;
 }
 
 const WORLD_METERS = 'https://corona.lmao.ninja/v2';
 
 export enum CACHE_TYPE {
     COUNTRIES,
-    SUMMARY
+    SUMMARY,
+    COUNTRIES_HISTORY
 }
 
 @Injectable({
@@ -33,7 +37,10 @@ export class NovelCovidService {
         hasCountries: false, 
         hasSummary: false,
         countriesUpdated: null,
-        summaryUpdated: null
+        summaryUpdated: null,
+        hasHistoricalCountries: false,
+        historicalCountries: new BehaviorSubject<CountryHistorical[]>(null),
+        historicalCountriesUpdated: null
     } as CacheInfo;
 
     constructor(private http: HttpClient) {}
@@ -91,12 +98,26 @@ export class NovelCovidService {
             .pipe(shareReplay());
     }
 
+    getCountriesHistorical(): Observable<CountryHistorical[]> {
+        const url = `${WORLD_METERS}/historical`;
+
+        if (this.isCountriesHistoricalCacheValid())
+            return this.cacheInfo.historicalCountries.asObservable();
+
+        return this.http.get<CountryHistorical[]>(url)
+            .pipe(tap(countries => this.addToCache(CACHE_TYPE.COUNTRIES_HISTORY, countries)));
+    }
+
     private isCountryCacheValid(): boolean {
         return this.cacheInfo.hasCountries && !this.isCacheExpired(CACHE_TYPE.COUNTRIES);
     }
 
     private isSummaryCacheValid(): boolean {
         return this.cacheInfo.hasSummary && !this.isCacheExpired(CACHE_TYPE.SUMMARY);
+    }
+
+    private isCountriesHistoricalCacheValid(): boolean {
+        return this.cacheInfo.hasHistoricalCountries && !this.isCacheExpired(CACHE_TYPE.COUNTRIES_HISTORY);
     }
 
     private addToCache(cacheType: CACHE_TYPE, data: any): void {
@@ -108,6 +129,10 @@ export class NovelCovidService {
             this.cacheInfo.hasSummary = true;
             this.cacheInfo.summaryUpdated = moment();
             this.cacheInfo.summary.next(data);
+        } else if (cacheType === CACHE_TYPE.COUNTRIES_HISTORY) {
+            this.cacheInfo.hasHistoricalCountries = true;
+            this.cacheInfo.historicalCountriesUpdated = moment();
+            this.cacheInfo.historicalCountries.next(data);
         }
     }
 
@@ -116,7 +141,6 @@ export class NovelCovidService {
             ? 'countriesUpdated' : 'summaryUpdated';
         
         const cacheTimeCheck = this.cacheInfo[key].add(5, 'minute');
-        console.dir(cacheTimeCheck);
 
         return cacheTimeCheck.isBefore(moment(), 'minute');
     }

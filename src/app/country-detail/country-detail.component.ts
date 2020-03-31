@@ -1,21 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NovelCovidService } from '../novelcovid.service';
 import { switchMap, map } from 'rxjs/operators';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { CoronaCountry, CoronaSummary, CovidLocation, CountryHistorical } from '../models';
-import { Observable, of } from 'rxjs';
+import { CoronaCountry, CoronaSummary, CovidLocation, CountryHistorical, 
+    CountryDetailGraphOption, CountryDetailGraphOptionType, STATES_ARRAY } from '../models';
+import { Observable, of, Subscription } from 'rxjs';
 import { AppService } from '../app.service';
 import * as moment from 'moment';
 import { PlotComponent } from 'angular-plotly.js';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { FormControl } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
     selector: 'app-country-detail',
     templateUrl: './country-detail.component.html',
     styleUrls: ['./country-detail.component.scss']
 })
-export class CountryDetailComponent implements OnInit {
+export class CountryDetailComponent implements OnInit, OnDestroy {
 
     mapCountries: CoronaCountry[];
     country: CoronaCountry;
@@ -53,7 +56,20 @@ export class CountryDetailComponent implements OnInit {
         'rgb(32, 32, 32)'
     ];
 
+    today = moment();
+    isMobile = false;
+    graphSelect = new FormControl(0);
+    state = new FormControl();
+    graphingOptions: CountryDetailGraphOption[] = [
+        { name: 'Entire Country', value: CountryDetailGraphOptionType.Country },
+        { name: 'All States', value: CountryDetailGraphOptionType.AllStates },
+        // { name: 'Single State', value: CountryDetailGraphOptionType.SingleState }
+    ];
+    stateOptions = STATES_ARRAY;
+    showStateControls = false;
+
     @ViewChild('plt') plt: PlotComponent;
+    subs: Subscription[] = [];
 
     yAxisTickFormatting = (tick) => {
         if (tick > 1000) {
@@ -72,12 +88,13 @@ export class CountryDetailComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.bo.observe([ Breakpoints.Handset, Breakpoints.Web ])
+        this.subs.push(this.bo.observe([ Breakpoints.Handset ])
             .subscribe(state => {
+                this.isMobile = state.matches;
                 if (this.plt) {
                     this.plt.plotly.resize(this.plt.plotEl.nativeElement);
                 }
-            });
+            }));
 
         this.summary$ = this.novel.getSummary();
         this.chartData$ = this.route.paramMap
@@ -90,6 +107,8 @@ export class CountryDetailComponent implements OnInit {
                     if (country) {
                         this.country = country;
                         this.mapCountries = [country];
+
+                        this.showStateControls = this.country.country.toLowerCase() === 'usa';                        
 
                         return this.novel.getCountryHistorical(country.country);
                     }
@@ -131,6 +150,14 @@ export class CountryDetailComponent implements OnInit {
                     return data;
                 })
             );
+    }
+
+    ngOnDestroy() {
+        this.subs.forEach(s => s.unsubscribe());
+    }
+
+    onStateOptionChange(event: MatSelectChange) {
+        // console.dir(event);
     }
 
     divide(num: number, den: number): number {

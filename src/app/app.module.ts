@@ -16,6 +16,7 @@ import { CountryDetailComponent } from './country-detail/country-detail.componen
 // import { NgxChartsModule } from '@swimlane/ngx-charts';
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
+import { CountriesGraphComponent } from './countries-graph/countries-graph.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -26,7 +27,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
         // MapComponent,
         PublicComponent,
         VideoIntroComponent,
-        CountryDetailComponent
+        CountryDetailComponent,
+        CountriesGraphComponent
     ],
     imports: [
         CommonModule,
