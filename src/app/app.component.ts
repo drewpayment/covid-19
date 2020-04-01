@@ -4,6 +4,9 @@ import { filter, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 
+// tslint:disable-next-line: ban-types
+declare let gtag: Function;
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -17,8 +20,14 @@ export class AppComponent implements OnInit {
         this.isHomepage$ = this.router.events
             .pipe(
                 filter(event => event instanceof NavigationEnd),
-                map((event: RouterEvent) => event.url.length === 1 && event.url === '/'),
-                tap(val => console.log(val))
+                map((event: NavigationEnd) => {
+                    gtag('config', 'UA-162431629-1', {
+                        // tslint:disable-next-line: object-literal-key-quotes
+                        'page_path': event.urlAfterRedirects
+                    });
+
+                    return event.url.length === 1 && event.url === '/';
+                })
             );
     }
 
