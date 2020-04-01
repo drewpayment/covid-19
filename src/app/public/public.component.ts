@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { switchMap, tap, startWith, debounceTime } from 'rxjs/operators';
 import { Tensor, Rank } from '@tensorflow/tfjs';
-import { Observable, of, BehaviorSubject, merge, zip, combineLatest } from 'rxjs';
+import { Observable, of, BehaviorSubject, merge, zip, combineLatest, Subscription } from 'rxjs';
 import { Sort, MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
@@ -27,7 +27,7 @@ const SORT_DIR = { ASC: 'asc', DESC: 'desc' };
     templateUrl: './public.component.html',
     styleUrls: ['./public.component.scss']
 })
-export class PublicComponent implements OnInit {
+export class PublicComponent implements OnInit, OnDestroy {
     title = 'covid';
     xTrain: Tensor<Rank>;
     xTest: Tensor<Rank>;
@@ -44,6 +44,7 @@ export class PublicComponent implements OnInit {
     isGlobalViewOpened = true;
     isWebViewEnabled = false;
     isMobilePotrait = false;
+    subs: Subscription[] = [];
 
     constructor(
         private service: AppService, 
@@ -54,17 +55,17 @@ export class PublicComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.bo.observe([ Breakpoints.HandsetLandscape, Breakpoints.Web ])
-            .subscribe(state => {
-                this.isWebViewEnabled = state.matches;
+        this.subs.push(this.bo.observe([ Breakpoints.HandsetLandscape, Breakpoints.Web ])
+        .subscribe(state => {
+            this.isWebViewEnabled = state.matches;
 
-                if (state.matches) {
-                    this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
-                } else {
-                    this.displayColumns = ['country', 'cases', 'deaths'];
-                    this.isMobilePotrait = state.breakpoints[Breakpoints.HandsetPortrait];
-                }
-            });
+            if (state.matches) {
+                this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
+            } else {
+                this.displayColumns = ['country', 'cases', 'deaths'];
+                this.isMobilePotrait = state.breakpoints[Breakpoints.HandsetPortrait];
+            }
+        }));
         
         this.dataSource.sort = this.sort;
 
@@ -124,6 +125,10 @@ export class PublicComponent implements OnInit {
             );
     }
 
+    ngOnDestroy() {
+        this.subs.forEach(s => s.unsubscribe());
+    }
+
     sortTable(event: Sort) {
         this.sortStrategy.next(event);
     }
@@ -138,11 +143,6 @@ export class PublicComponent implements OnInit {
     }
 
     private sortCovidLocations(a: CoronaCountry, b: CoronaCountry, s: Sort): number {
-        // if (s.active === SORT_COLUMNS.CONFIRMED) {
-        //     return (a[s.active] < b[s.active]
-        //         ? -1 : 1) * (s.direction === SORT_DIR.ASC ? 1 : -1);
-        // }
-
         return (a[s.active] < b[s.active] ? -1 : 1)
             * (s.direction === SORT_DIR.ASC ? 1 : -1);
     }

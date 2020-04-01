@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="chartData$|async as data">
+<ng-container *ngIf="chartData$|async as charts">
     <div class="container" *ngIf="summary$|async as summary">
         <div class="row" *ngIf="country != null">
             <div class="twelve columns"
@@ -76,9 +76,13 @@
                     [config]="plotlyGraph.config"
                 ></plotly-plot>
 
-                <p *ngIf="graphSelect?.value == 1">
-                    Coming Soon...
-                </p>
+                <plotly-plot #statePlt
+                    *ngIf="graphSelect?.value == 1"
+                    [data]="charts.states.data"
+                    [layout]="charts.states.layout"
+                    [config]="charts.states.config"
+                >
+                </plotly-plot>
                 <!-- ADD HORIZONTAL BAR CHART BY STATES HERE... 
                 https://plotly.com/javascript/horizontal-bar-charts/ -->
             </div>

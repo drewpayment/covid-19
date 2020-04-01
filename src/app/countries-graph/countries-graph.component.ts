@@ -82,7 +82,8 @@ export class CountriesGraphComponent implements OnInit, OnDestroy {
         orig: CountryHistorical[], 
         result: CountryHistorical[] = []
     ): CountryHistorical[] {
-        const max = orig.reduce((prev, curr) => {
+        const origList = [].concat(orig) as CountryHistorical[];
+        const max = origList.reduce((prev, curr) => {
             const prevIndex = Object.keys(prev.timeline.cases).length - 1;
             const prevAmt = Object.values(prev.timeline.cases)[prevIndex];
             const currIndex = Object.keys(curr.timeline.cases).length - 1;
@@ -90,12 +91,12 @@ export class CountriesGraphComponent implements OnInit, OnDestroy {
             return prevAmt > currAmt ? prev : curr;
         });
 
-        const index = orig.findIndex(o => o === max);
-        orig.splice(index, 1);
+        const index = origList.findIndex(o => o === max);
+        origList.splice(index, 1);
         result.push(max);
 
         if (result.length < noOfResults) {
-            return this.getTopNCountriesByCasesToday(noOfResults, orig, result);
+            return this.getTopNCountriesByCasesToday(noOfResults, origList, result);
         } else {
             const sorted = result.sort((prev, curr) => {
                 const prevIndex = Object.keys(prev.timeline.cases).length - 1;
