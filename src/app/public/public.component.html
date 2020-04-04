@@ -1,21 +1,16 @@
 
-<div class="container pb-7">
-    <div class="row" *ngIf="isLoading">
-        <div class="twelve columns">
-            <mat-spinner></mat-spinner>
-        </div>
+<div class="container py-7">
+    <div class="row flex justify-content-center align-items-center" *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
     </div>
 
     <ng-container *ngIf="locations$ | async as locations">
         <ng-container *ngIf="latest">
-            <div class="row flex justify-content-center">
+            <div class="row flex justify-content-center mt-7">
                 <!-- <div class="six columns"> -->
-                    <div class="hero-container">
-                        <h1 class="mat-display-2">
-                            <mat-icon>people_alt</mat-icon>
-                            <span>Countries Infected</span>
-                        </h1>
-                    </div>
+                <h1 class="mat-display-2 mb-0">
+                    <span>Countries Infected</span>
+                </h1>
                     <!-- <mat-expansion-panel [expanded]="false" (opened)="isGlobalViewOpened = true" (closed)="isGlobalViewOpened = false">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -53,7 +48,7 @@
                             </mat-list-item>
                         </mat-list>
                     </mat-expansion-panel> -->
-                </div>
+            </div>
             <!-- </div> -->
         </ng-container>
 

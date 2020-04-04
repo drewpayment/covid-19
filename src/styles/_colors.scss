@@ -1,4 +1,25 @@
+@import 'autotheme';
 
 .bg-transparent {
     background: transparent !important;
+}
+
+.bg-color-primary {
+    background-color: material-get(primary-color) !important;
+}
+
+.bg-color-accent {
+    background-color: material-get(accent-color) !important;
+}
+
+.bg-color-app-bar {
+    background-color: mat-color(material-get(background), app-bar) !important;
+}
+
+.text-color-primary {
+    color: material-get(primary-color) !important;
+}
+
+.text-color-accent {
+    color: material-get(accent-color) !important;
 }

@@ -2,7 +2,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 
-@import './styles/theme';
+@import './styles/autotheme';
 // Plus imports for other components in your app.
 
 
@@ -14,29 +14,27 @@
 @import 'styles/images';
 @import 'styles/util';
 @import 'styles/colors';
+@import 'styles/fix';
 
 html, body { 
     height: 100%; 
-    // background-color: material-get(primary-color);
-    background: transparent !important;
-    // background: rgb(183,28,28);
-    // background: linear-gradient(176deg, rgba(183,28,28,1) 0%, rgba(31,4,8,1) 85%);
+    // background: transparent !important;
 }
 body { 
     margin: 0; 
     font-family: 'Work Sans', "Helvetica Neue", sans-serif; 
 }
 
-h1, h2, h3, h4, h5, h6, p {
-    font-family: 'Crimson Text', serif !important;
-}
+// h1, h2, h3, h4, h5, h6, p {
+//     font-family: 'Crimson Text', serif !important;
+// }
 
-@for $i from 1 through 4 {
-    .mat-display-#{$i} {
-        font-family: 'Crimson Text', serif !important;
-    }
+// @for $i from 1 through 4 {
+//     .mat-display-#{$i} {
+//         font-family: 'Crimson Text', serif !important;
+//     }
 
-    .mat-h#{$i} {
-        font-family: 'Crimson Text', serif !important;
-    }
-}
+//     .mat-h#{$i} {
+//         font-family: 'Crimson Text', serif !important;
+//     }
+// }

@@ -1,0 +1,17 @@
+@import '../../styles/autotheme';
+
+.hero-row {
+    margin-top: 10vh !important;
+}
+
+.symptoms-row {
+    @extend .hero-row;
+
+    background-color: material-get(primary-color) !important;
+    padding: 5rem !important;
+    border-radius: 1rem;
+
+    ul {
+        font-size: 2rem;
+    }
+}

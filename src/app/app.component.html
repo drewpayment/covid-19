@@ -1,8 +1,8 @@
+
 <ng-template #bo let-isMobile="isMobile">
-    <mat-sidenav-container>
-        <mat-sidenav #nav [mode]="isMobile ? 'over' : 'side'" autoFocus="false" [fixedInViewport]="true" class="bg-primary">
-            <mat-toolbar class="bg-transparent">
-                <h2>Resources</h2>
+    <mat-sidenav-container *ngIf="isMobile; else isNotMobile;">
+        <mat-sidenav #nav [mode]="'over'" autoFocus="false" [fixedInViewport]="true">
+            <mat-toolbar class="bg-color-app-bar">
                 <div class="spacer"></div>
                 <button type="button" mat-icon-button (click)="nav.toggle()">
                     <mat-icon>navigate_before</mat-icon>
@@ -11,20 +11,20 @@
             <mat-nav-list>
                 <a mat-list-item [routerLink]="['']" (click)="nav.toggle()">
                     <mat-icon matListIcon>near_me</mat-icon>
-                    <span>Home</span>
+                    <span>Covid19</span>
                 </a>
                 <a mat-list-item [routerLink]="['countries']" (click)="nav.toggle()">
                     <mat-icon matListIcon>people_alt</mat-icon>
-                    <span>Countries</span>
+                    <span>Live Updates</span>
                 </a>
                 <a mat-list-item [routerLink]="['intro']" (click)="nav.toggle()">
                     <mat-icon matListIcon>camera_roll</mat-icon>
-                    <span>What is COVID-19?</span>
+                    <span>About</span>
                 </a>
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-            <mat-toolbar class="mat-elevation-z8 mb-7 bg-primary">
+            <mat-toolbar class="mat-elevation-z1 app-nav">
                 <ng-container *ngIf="(isHomepage$|async) == false">
                     <button type="button" mat-icon-button (click)="goBack()">
                         <mat-icon>arrow_back</mat-icon>
@@ -33,13 +33,38 @@
                 <button type="button" mat-icon-button (click)="nav.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
-                <mat-icon>language</mat-icon>
-                <h1>Coronavirus (SARS-COV-2)</h1>
+                <h1 class="text-color-accent font-weight-bold cursor-click" (click)="goHome()">Covid19</h1>
             </mat-toolbar>
             
-            <router-outlet></router-outlet>
+            <div class="app-main my-7">
+                <router-outlet></router-outlet>
+            </div>
+
+            <app-footer class="app-footer bg-color-app-bar"></app-footer>
         </mat-sidenav-content>
     </mat-sidenav-container>
+
+    <ng-template #isNotMobile>
+        <mat-toolbar class="mat-elevation-z1 nav-toolbar app-nav">
+            <h1 class="text-color-accent font-weight-bold cursor-click" (click)="goHome()">Covid19</h1>
+
+            <div class="spacer"></div>
+            <!-- LINKS -->
+            <a mat-button [routerLink]="['intro']">About</a>
+
+            <a mat-button [routerLink]="['contagion']">Contagion</a>
+
+            <a mat-button [routerLink]="['countries']">Live Updates</a>
+
+            <a mat-stroked-button *ngIf="false" color="accent" [routerLink]="['donate']">Donate</a>
+        </mat-toolbar>
+
+        <div class="app-main pb-7">
+            <router-outlet></router-outlet>
+        </div>
+
+        <app-footer class="app-footer bg-color-app-bar"></app-footer>
+    </ng-template>
 </ng-template>
 
 <ng-container *ngTemplateOutlet="bo;context: { isMobile: isMobile$|async }"></ng-container>

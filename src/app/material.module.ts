@@ -15,6 +15,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatCardModule,
         MatSidenavModule,
         MatSelectModule,
+        MatGridListModule,
     ],
     exports: [
         MatProgressSpinnerModule,
@@ -52,6 +54,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatCardModule,
         MatSidenavModule,
         MatSelectModule,
+        MatGridListModule,
     ]
 })
 export class MaterialModule {}
