@@ -25,6 +25,7 @@
 // @import "../../node_modules/skeleton-scss/scss/modules/tables";
 // @import "../../node_modules/skeleton-scss/scss/modules/spacing";
 @import "../../node_modules/skeleton-scss/scss/modules/media-queries";
+@import 'autotheme';
 
 
 .flex {
@@ -83,4 +84,36 @@
 
 .css-grid-inline {
     display: inline-grid !important;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.mt-auto {
+    margin-top: auto;
+}
+
+.app-container {
+    display: grid;
+    grid-gap: 60px;
+    height: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: 65px 1fr 200px;
+    grid-template-areas: 
+        "nav"
+        "main"
+        "footer";
+}
+
+.app-nav {
+    grid-area: nav;
+}
+
+.app-main {
+    grid-area: main;
+}
+
+.app-footer {
+    grid-area: footer;
 }

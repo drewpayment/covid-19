@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterEvent, NavigationEnd } from '@angular/rou
 import { filter, map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // tslint:disable-next-line: ban-types
 declare let gtag: Function;
@@ -15,8 +16,16 @@ declare let gtag: Function;
 export class AppComponent implements OnInit {
     title = 'covid';
     isHomepage$: Observable<boolean>;
+    isMobile$: Observable<boolean>;
 
-    constructor(private router: Router, private location: Location) {
+    constructor(
+        private router: Router, 
+        private location: Location,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        this.isMobile$ = this.breakpointObserver.observe([ Breakpoints.HandsetPortrait ])
+            .pipe(map(state => state.matches));
+
         this.isHomepage$ = this.router.events
             .pipe(
                 filter(event => event instanceof NavigationEnd),
@@ -34,5 +43,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {}
 
     goBack = () => this.location.back();
+
+    goHome = () => this.router.navigate(['']);
 
 }

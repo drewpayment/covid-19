@@ -1,4 +1,4 @@
-@import '../../styles/theme';
+@import '../../styles/autotheme';
 
 .virtual-viewport {
     height: 100%;
@@ -25,15 +25,23 @@
     width: 100%;
 }
 
-@include mat-extend {
-    .hero-container {
-        color: material-get(accent-color);
+.hero-container {
+    color: material-get(accent-color);
 
-        * {
-            color: material-get(accent-color);
-        }
+    * {
+        color: material-get(accent-color);
     }
 }
+
+// @include mat-extend {
+//     .hero-container {
+//         color: material-get(accent-color);
+
+//         * {
+//             color: material-get(accent-color);
+//         }
+//     }
+// }
 
 .mat-cell, .mat-header-cell {
     padding-left: 0.5rem;

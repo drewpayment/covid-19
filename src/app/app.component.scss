@@ -1,4 +1,4 @@
-
+@import '../styles/colors';
 .mat-sidenav-container, .mat-sidenav-content {
     overflow: initial;
 }
@@ -6,7 +6,11 @@
 .mat-sidenav {
     
     @media (max-width: 599px) {
-        width: 100%;
+        // width: 100%;
+
+        .mat-drawer-inner-container {
+            background-color: mat-color(material-get(background), app-bar) !important;
+        }
     } 
 
     @media (min-width: 1024px) {
@@ -18,5 +22,9 @@
 .nav-header {
     display: flex;
     align-items: baseline;
-    padding: 1rem;
+}
+
+.nav-toolbar {
+    padding: 0 20vw;
+    height: 64px !important;
 }

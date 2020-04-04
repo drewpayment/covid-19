@@ -3,11 +3,13 @@
     margin: 25px 0;
 }
 
+.m-t-10 {
+    margin-top: 10vh;
+}
 
-
-
-
-
+.p-t-6 {
+    padding-top: 6rem !important;
+}
 
 
 
@@ -28,51 +30,59 @@ $rems: '0.25', '0.5', '0.75', '1', '1.25', '1.5', '2';
         } 
 
         .m-#{$i} {
-            margin: #{$rv + $unit};
+            margin: #{$rv + $unit} !important;
         }
 
         .ml-#{$i} {
-            margin-left: #{$rv + $unit};
+            margin-left: #{$rv + $unit} !important;
         }
 
         .mr-#{$i} {
-            margin-right: #{$rv + $unit};
+            margin-right: #{$rv + $unit} !important;
         }
 
         .mx-#{$i} {
-            margin: 0 #{$rv + $unit};
+            margin: 0 #{$rv + $unit} !important;
         }
 
         .my-#{$i} {
-            margin: #{$rv + $unit} 0;
+            margin: #{$rv + $unit} 0 !important;
         }
 
         .mb-#{$i} {
-            margin-bottom: #{$rv + $unit};
+            margin-bottom: #{$rv + $unit} !important;
+        }
+
+        .mt-#{$i} {
+            margin-top: #{$rv + $unit} !important;
         }
 
         .p-#{$i} {
-            padding: #{$rv + $unit};
+            padding: #{$rv + $unit} !important;
+        }
+
+        .pt-#{$i} {
+            padding-top: #{$rv + $unit} !important;
         }
 
         .pb-#{$i} {
-            padding-bottom: #{$rv + $unit};
+            padding-bottom: #{$rv + $unit} !important;
         }
 
         .pl-#{$i} {
-            padding-left: #{$rv + $unit};
+            padding-left: #{$rv + $unit} !important;
         }
 
         .pr-#{$i} {
-            padding-right: #{$rv + $unit};
+            padding-right: #{$rv + $unit} !important;
         }
 
         .px-#{$i} {
-            padding: 0 #{$rv + $unit};
+            padding: 0 #{$rv + $unit} !important;
         }
 
         .py-#{$i} {
-            padding: #{$rv + $unit} 0;
+            padding: #{$rv + $unit} 0 !important;
         }
 
         $i: $i + 1;
