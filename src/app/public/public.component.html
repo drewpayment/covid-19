@@ -8,16 +8,13 @@
 
     <ng-container *ngIf="locations$ | async as locations">
         <ng-container *ngIf="latest">
-            <div class="row">
-                <div class="twelve columns">
+            <div class="row flex justify-content-center">
+                <!-- <div class="six columns"> -->
                     <div class="hero-container">
-                        <h1>
-                            <mat-icon inline="true">language</mat-icon>
-                            <span>Coronavirus (SARS-COV-2)</span>
+                        <h1 class="mat-display-2">
+                            <mat-icon>people_alt</mat-icon>
+                            <span>Countries Infected</span>
                         </h1>
-                        <h3 class="font-xs font-italic">
-                            Updated: {{ latest.updated | date: 'short' }}
-                        </h3>
                     </div>
                     <!-- <mat-expansion-panel [expanded]="false" (opened)="isGlobalViewOpened = true" (closed)="isGlobalViewOpened = false">
                         <mat-expansion-panel-header>
@@ -57,12 +54,15 @@
                         </mat-list>
                     </mat-expansion-panel> -->
                 </div>
-            </div>
+            <!-- </div> -->
         </ng-container>
 
         <div class="row flex justify-content-center mb-4">
             <div class="nine columns">
                 <app-countries-graph></app-countries-graph>
+                <p class="font-xs font-italic">
+                    Updated: {{ latest.updated | date: 'short' }}
+                </p>
             </div>
         </div>
 

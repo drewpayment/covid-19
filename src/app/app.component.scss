@@ -6,7 +6,7 @@
 .mat-sidenav {
     
     @media (max-width: 599px) {
-        width: 100%;
+        // width: 100%;
     } 
 
     @media (min-width: 1024px) {
@@ -18,5 +18,4 @@
 .nav-header {
     display: flex;
     align-items: baseline;
-    padding: 1rem;
 }

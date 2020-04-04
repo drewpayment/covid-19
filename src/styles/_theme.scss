@@ -33,10 +33,16 @@ $vs-red: (
   ),
 );
 
+$typography: mat-typography-config(
+    $font-family: "'Work Sans', sans-serif",
+    $headline: mat-typography-level(32px, 48px, 500),
+    $body-1: mat-typography-level(16px, 24px, 300)
+);
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat-core($typography);
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -170,8 +176,12 @@ $theme-maps: (
 
   // custom classes
   .bg-primary {
-    background: rgb(183, 28, 28);
-    background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+      background-color: #424242 !important;
+    // background: rgb(183, 28, 28);
+    // background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+    // background: rgb(183,28,28);
+    // background: linear-gradient(0deg, rgba(183,28,28,1) 10%, rgba(249,247,247,1) 100%);
+
     color: $accent-color !important;
 
     * {
@@ -184,10 +194,11 @@ $theme-maps: (
   }
 
   .nav-header {
-    @extend .mat-elevation-z8;
+    // @extend .mat-elevation-z8;
     display: flex;
     align-items: baseline;
-    background-color: map-get($vs-red, 900) !important;
+    // background-color: map-get($vs-red, 900) !important;
+    background: transparent !important;
   }
 
   .mat-drawer-container {
@@ -195,8 +206,11 @@ $theme-maps: (
     min-height: 100%;
     // background: transparent !important;
     // background-color: $primary-color !important;
-    background: rgb(183, 28, 28);
-    background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+    // background: rgb(183, 28, 28);
+    // background: linear-gradient(176deg, rgba(183, 28, 28, 1) 0%, rgba(31, 4, 8, 1) 85%);
+    background: rgb(183,28,28);
+    background: linear-gradient(180deg, rgba(183,28,28,1) 10%, rgba(249,247,247,1) 100%);
+
   }
 }
 

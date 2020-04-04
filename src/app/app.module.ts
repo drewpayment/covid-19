@@ -17,6 +17,7 @@ import { CountryDetailComponent } from './country-detail/country-detail.componen
 import * as PlotlyJS from 'plotly.js/dist/plotly.js';
 import { PlotlyModule } from 'angular-plotly.js';
 import { CountriesGraphComponent } from './countries-graph/countries-graph.component';
+import { HomeComponent } from './home/home.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -28,7 +29,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
         PublicComponent,
         VideoIntroComponent,
         CountryDetailComponent,
-        CountriesGraphComponent
+        CountriesGraphComponent,
+        HomeComponent
     ],
     imports: [
         CommonModule,

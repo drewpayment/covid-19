@@ -13,6 +13,7 @@
 @import 'styles/typography';
 @import 'styles/images';
 @import 'styles/util';
+@import 'styles/colors';
 
 html, body { 
     height: 100%; 
@@ -23,5 +24,19 @@ html, body {
 }
 body { 
     margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    font-family: 'Work Sans', "Helvetica Neue", sans-serif; 
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Crimson Text', serif !important;
+}
+
+@for $i from 1 through 4 {
+    .mat-display-#{$i} {
+        font-family: 'Crimson Text', serif !important;
+    }
+
+    .mat-h#{$i} {
+        font-family: 'Crimson Text', serif !important;
+    }
 }
