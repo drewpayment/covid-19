@@ -19,6 +19,7 @@ import { PlotlyModule } from 'angular-plotly.js';
 import { CountriesGraphComponent } from './countries-graph/countries-graph.component';
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
+import { ContagionComponent } from './contagion/contagion.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -32,7 +33,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
         CountryDetailComponent,
         CountriesGraphComponent,
         HomeComponent,
-        FooterComponent
+        FooterComponent,
+        ContagionComponent
     ],
     imports: [
         CommonModule,

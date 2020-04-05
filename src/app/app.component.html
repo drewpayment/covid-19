@@ -13,6 +13,10 @@
                     <mat-icon matListIcon>near_me</mat-icon>
                     <span>Covid19</span>
                 </a>
+                <a mat-list-item [routerLink]="['contagion']" (click)="nav.toggle()">
+                    <span class="iconify" data-icon="mdi:allergy" data-inline="false" matListIcon></span>
+                    <span>Contagion</span>
+                </a>
                 <a mat-list-item [routerLink]="['countries']" (click)="nav.toggle()">
                     <mat-icon matListIcon>people_alt</mat-icon>
                     <span>Live Updates</span>

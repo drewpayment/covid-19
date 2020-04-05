@@ -1,0 +1,13 @@
+
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+            <ng-container *ngIf="plot$|async as plot">
+                <plotly-plot #plt
+                    [data]="plot.data"
+                    [layout]="plot.layout"
+                ></plotly-plot>
+            </ng-container>
+        </div>
+    </div>
+</div>

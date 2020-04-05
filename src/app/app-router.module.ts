@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { VideoIntroComponent } from './video-intro/video-intro.component';
 import { CountryDetailComponent } from './country-detail/country-detail.component';
 import { HomeComponent } from './home/home.component';
+import { ContagionComponent } from './contagion/contagion.component';
 
 const routes: Route[] = [
     {
@@ -14,6 +15,10 @@ const routes: Route[] = [
     {
         path: 'intro', 
         component: VideoIntroComponent
+    },
+    {
+        path: 'contagion',
+        component: ContagionComponent
     },
     {
         path: 'countries',
