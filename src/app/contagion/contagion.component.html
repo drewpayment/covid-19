@@ -2,12 +2,26 @@
 <div class="container">
     <div class="row">
         <div class="twelve columns">
+            <h1 class="mat-display-2 text-color-accent text-center" *ngIf="percCountiesInfected">
+                {{ percCountiesInfected | percent:'2.0-2' }} Counties Infected in US 
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
             <ng-container *ngIf="plot$|async as plot">
                 <plotly-plot #plt
                     [data]="plot.data"
                     [layout]="plot.layout"
+                    [config]="plot.config"
                 ></plotly-plot>
             </ng-container>
+            <div class="flex justify-content-between" *ngIf="lastUpdated">
+                <span>Last Updated: {{ lastUpdated | date: 'shortDate' }}</span>
+                <a [routerLink]="['..', 'country', '840']">
+                    Check here for more details and up-to-minute updates
+                </a>
+            </div>
         </div>
     </div>
 </div>

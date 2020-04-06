@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { CountyCases, CountyCenter, CountyCasesWithGeoData } from '../models';
+import { CountyCases, CountyCenter, CountyCasesWithGeoData, GeoSpatial, GeoSpatialFeature } from '../models';
 import { tap, map, switchMap, withLatestFrom, mergeAll, concat, zip } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 
@@ -15,7 +15,13 @@ export class ContagionService {
         @Inject(DOCUMENT) public document: Document
     ) { }
 
-    getCountyCenters(): Observable<any> {
+    getCountySpatialData(): Observable<GeoSpatial> {
+        // tslint:disable-next-line: max-line-length
+        const url = `https://gist.githubusercontent.com/drewpayment/9d765246a10441532d2a3d901d239468/raw/96d53e8838287f4d5380af70e37781126170973e/gz_2010_us_050_00_20m.json`;
+        return this.http.get<GeoSpatial>(url);
+    }
+
+    getCountyCenters(): Observable<CountyCenter[]> {
         const url = 'https://raw.githubusercontent.com/drewpayment/spatial/master/data/county_centers.csv';
         return this.http
             .get<string>(url, {

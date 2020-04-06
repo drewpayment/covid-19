@@ -20,6 +20,7 @@ import { CountriesGraphComponent } from './countries-graph/countries-graph.compo
 import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContagionComponent } from './contagion/contagion.component';
+import { DecimalPipe } from '@angular/common';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -49,7 +50,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
         AppRouterModule
     ],
-    providers: [],
+    providers: [
+        DecimalPipe
+    ],
     bootstrap: [
         AppComponent
     ]
