@@ -55,7 +55,7 @@ export class ContagionComponent implements OnInit {
 
                     this.lastUpdated = moment(this.cases[this.cases.length - 1].date);
                     const rawCases = this.cases.map(c => c.cases);
-                    const grouped = this.cases.groupBy('fips');
+                    const grouped = this.groupBy(this.cases, 'fips');
                     const gLength = Object.keys(grouped).length;
 
                     this.percCountiesInfected = coerceNumberProperty((gLength / this.geo.length).toPrecision(4));
@@ -156,6 +156,17 @@ export class ContagionComponent implements OnInit {
         
         const pow = Math.pow(10, dec);
         return (Math.floor(rand * pow) / pow).toPrecision(dec);
+    }
+
+    private groupBy(arr: any[], key: string, key2?: string, delimiter?: string) {
+        delimiter = delimiter || ',';
+        return arr.reduce((rv, x) => {
+            if (key2) 
+                (rv[x[key] + delimiter + x[key2]] = rv[x[key] + delimiter + x[key2]] || []).push(x);
+            else 
+                (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
     }
 
     getSimilarCoordinates(lats: string[], lons: string[]): LatsLons {
