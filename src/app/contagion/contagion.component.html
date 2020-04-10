@@ -9,12 +9,22 @@
     </div>
     <div class="row">
         <div class="twelve columns">
-            <ng-container *ngIf="plot$|async as plot">
+            <!-- <ng-container *ngIf="plot$|async as plot">
                 <plotly-plot #plt
                     [data]="plot.data"
                     [layout]="plot.layout"
                     [config]="plot.config"
                 ></plotly-plot>
+            </ng-container> -->
+            <ng-container *ngIf="hc$|async as hc">
+                <div style="min-height: 600px !important; width: 100% !important;">
+                    <highcharts-chart
+                        [Highcharts]="hc.hc"
+                        [options]="hc.options"
+                        chartConstructor="mapChart"
+                    ></highcharts-chart>
+                </div>
+                
             </ng-container>
             <div class="flex justify-content-between" *ngIf="lastUpdated">
                 <span>Last Updated: {{ lastUpdated | date: 'shortDate' }}</span>

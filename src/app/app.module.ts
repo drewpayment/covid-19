@@ -21,6 +21,7 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { ContagionComponent } from './contagion/contagion.component';
 import { DecimalPipe } from '@angular/common';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -47,7 +48,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
         ReactiveFormsModule,
         // NgxChartsModule,
         PlotlyModule,
+        HighchartsChartModule,
 
+        // APP ROUTER
         AppRouterModule
     ],
     providers: [

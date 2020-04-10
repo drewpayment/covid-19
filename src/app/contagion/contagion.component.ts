@@ -8,6 +8,17 @@ import * as moment from 'moment';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import '../utils/array-ext';
 import { DecimalPipe } from '@angular/common';
+import * as Highcharts from 'highcharts/highmaps';
+import HC_map from 'highcharts/modules/map';
+import HC_acc from 'highcharts/modules/accessibility';
+import boost from 'highcharts/modules/boost';
+import hc_data from 'highcharts/modules/data';
+hc_data(Highcharts);
+boost(Highcharts);
+HC_acc(Highcharts);
+HC_map(Highcharts);
+
+const US_MAP = require('@highcharts/map-collection/countries/us/us-all-all.geo.json');
 
 @Component({
     selector: 'app-contagion',
@@ -23,96 +34,251 @@ export class ContagionComponent implements OnInit {
     percCountiesInfected: number;
     groupedByCounty: { [key: string]: CountyCases[] };
     lastUpdated: Date | string | moment.Moment;
-
     markerColors = ['#F57151', '#FC3824', '#EB3433', '#E62020', '#BE040A'];
+
+    /**
+     * HIGHCHARTS
+     */
+    hc$: Observable<any>;
+    Highcharts: typeof Highcharts = Highcharts;
 
     constructor(private service: ContagionService, private numPipe: DecimalPipe) { }
 
     ngOnInit(): void {
-        
-        this.plot$ = combineLatest(this.service.getNYTimesCovidDataByCounty(), this.service.getCountySpatialData())
+        // this.plot$ = combineLatest(this.service.getNYTimesCovidDataByCounty(), this.service.getCountySpatialData())
+        //     .pipe(
+        //         map(([result, spatialData]) => {
+        //             this.geo = result.geoData;
+        //             this.cases = result.countyCasesList;
+        //             const data = {
+        //                 type: 'scattermapbox',
+        //                 mode: 'markers',
+        //                 text: [],
+        //                 lon: [],
+        //                 lat: [],
+        //                 zmin: 0,
+        //                 zmid: 10,
+        //                 zmax: 50,
+        //                 z: [],
+        //                 marker: {
+        //                     color: '#491c0b',
+        //                     size: 4
+        //                 },
+        //                 radius: 10,
+        //                 hoverinfo: 'text'
+        //             };
+
+        //             this.lastUpdated = moment(this.cases[this.cases.length - 1].date);
+        //             const rawCases = this.cases.map(c => c.cases);
+        //             const grouped = this.groupBy(this.cases, 'fips');
+        //             const gLength = Object.keys(grouped).length;
+
+        //             this.percCountiesInfected = coerceNumberProperty((gLength / this.geo.length).toPrecision(4));
+        //             this.groupedByCounty = grouped;
+
+        //             for (const p in grouped) {
+        //                 const countyCases = grouped[p] as CountyCases[];
+        //                 const g = this.getGeoData(countyCases[0].fips);
+
+        //                 if (!g) continue;
+
+        //                 const c = countyCases[countyCases.length - 1];
+        //                 const markerColor = this.getMarkerColor(rawCases, c.cases);
+        //                 data.marker.color = markerColor;
+        //                 data.text.push(`${c.county} County - ${moment(c.date).format('MM/DD')} Cases: ${c.cases} Deaths: ${c.deaths}`);
+        //                 data.z.push(countyCases.length);
+        //                 data.lat.push(g.pclat10);
+        //                 data.lon.push(g.pclon10);
+        //             }
+
+        //             const largestZ = data.z.sort((a, b) => coerceNumberProperty(a) - coerceNumberProperty(b));
+        //             const largeNum = largestZ[largestZ.length - 1];
+        //             const removeIndex = data.z.findIndex(z => z == largeNum);
+        //             data.z = [...data.z.slice(0, removeIndex), ...data.z.slice(removeIndex + 1)];
+
+        //             return {
+        //                 data: [data],
+        //                 layout: {
+        //                     dragmode: 'zoom',
+        //                     mapbox: {
+        //                         style: 'carto-positron',
+        //                         layers: [{
+        //                             source: spatialData,
+        //                             type: 'fill',
+        //                             below: 'traces',
+        //                             color: '#fff'
+        //                         }],
+        //                         below: 'traces',
+        //                         center: {
+        //                             lat: 39,
+        //                             lon: -98,
+        //                         },
+        //                         zoom: 3.5,
+        //                     },
+        //                     margin: { r: 0, t: 0, b: 0, l: 0 },
+        //                     showlegend: false
+        //                 },
+        //                 config: {
+        //                     // mapboxAccessToken: 'pk.eyJ1IjoiZHJld3BheW1lbnQiLCJhIjoiY2s4bm5sMWc2MGJ6OTNtcW9ra21hNWgzNyJ9._b2y0RuyiE-2hXP42nU1xw'
+        //                 }
+        //             };
+        //         }),
+        //     );
+
+
+        this.hc$ = combineLatest(this.service.getNYTimesCovidDataByCounty(), this.service.getCountySpatialData())
             .pipe(
                 map(([result, spatialData]) => {
                     this.geo = result.geoData;
                     this.cases = result.countyCasesList;
-                    const data = {
-                        type: 'scattermapbox',
-                        mode: 'markers',
-                        text: [],
-                        lon: [],
-                        lat: [],
-                        zmin: 0, 
-                        zmid: 10,
-                        zmax: 50,
-                        z: [],
-                        marker: {
-                            color: '#491c0b',
-                            size: 4
-                        },
-                        radius: 10,
-                        hoverinfo: 'text'
-                    };
-
-                    this.lastUpdated = moment(this.cases[this.cases.length - 1].date);
-                    const rawCases = this.cases.map(c => c.cases);
                     const grouped = this.groupBy(this.cases, 'fips');
                     const gLength = Object.keys(grouped).length;
-
                     this.percCountiesInfected = coerceNumberProperty((gLength / this.geo.length).toPrecision(4));
                     this.groupedByCounty = grouped;
+
+                    // todo: finish this
+                    const data = [];
 
                     for (const p in grouped) {
                         const countyCases = grouped[p] as CountyCases[];
                         const g = this.getGeoData(countyCases[0].fips);
 
+                        if (!g) continue;
+
                         const c = countyCases[countyCases.length - 1];
-                        const markerColor = this.getMarkerColor(rawCases, c.cases);
-                        data.marker.color = markerColor;
-                        data.text.push(`${c.county} County - ${moment(c.date).format('MM/DD')} Cases: ${c.cases} Deaths: ${c.deaths}`);
-                        data.z.push(countyCases.length);
-                        data.lat.push(g.pclat10);
-                        data.lon.push(g.pclon10);
+
+                        data.push({
+                            fips: c.fips,
+                            name: c.county,
+                            value: c.cases,
+                            date: moment(c.date).format('mm/dd')
+                        });
                     }
 
-                    const largestZ = data.z.sort((a, b) => coerceNumberProperty(a) - coerceNumberProperty(b));
-                    const largeNum = largestZ[largestZ.length - 1];
-                    const removeIndex = data.z.findIndex(z => z == largeNum);
-                    data.z = [...data.z.slice(0, removeIndex), ...data.z.slice(removeIndex + 1)];
+                    const countiesMap = Highcharts.geojson(US_MAP);
+                    // Extract the line paths from the GeoJSON
+                    const lines = Highcharts.geojson(US_MAP, 'mapline');
+                    // Filter out the state borders and separator lines, we want these
+                    // in separate series
+                    const borderLines = Highcharts.grep(lines, (l) => {
+                        return l.properties['hc-group'] === '__border_lines__';
+                    });
+                    const separatorLines = Highcharts.grep(lines, (l) => {
+                        return l.properties['hc-group'] === '__separator_lines__';
+                    });
+                    // const countiesMap = Highcharts.geojson(spatialData, 'map');
+                    Highcharts.each(countiesMap, (mp) => {
+                        mp.name = (mp.name + ', ' + mp.properties['hc-key'].substr(3, 2)).toUpperCase();
+                    });
+
+                    const options = {
+                        chart: {
+                            type: 'map',
+                            borderWidth: 1, 
+                            marginRight: 20, // for the legend
+                            width: 960,
+                            height: 600
+                        },
+                        yAxis: {
+                            gridLineWidth: 0,
+                            visible: false
+                        },
+                        xAxis: {
+                            gridLineWidth: 0,
+                            visible: false
+                        },
+                        boost: {
+                            useGPUTranslations: true
+                        },
+                        title: {
+                            text: 'Active cases per county'
+                        },
+                        subtitle: {
+                            text: 'Click a county to see detailed information'
+                        },
+                        mapNavigation: {
+                            enabled: true,
+                            buttonOptions: {
+                                alignTo: 'spacingBox'
+                            }
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            floating: true,
+                            backgroundColor: (
+                                Highcharts.defaultOptions &&
+                                Highcharts.defaultOptions.legend && 
+                                Highcharts.defaultOptions.legend.backgroundColor
+                            ) || 'rgba(255, 255, 255, 0.85)'
+                        },
+                        colorAxis: {
+                            min: 0,
+                            max: 500,
+                            tickInterval: 25,
+                            stops: [[0, '#F1EEF6'], [0.65, '#900037'], [1, '#500007']],
+                            labels: {
+                                format: '{value}'
+                            }
+                        },
+                        plotOptions: {
+                            mapline: {
+                                showInLegend: false,
+                                enableMouseTracking: false,
+                            },
+                            map: {
+                                events: {
+                                    click: (event) => {
+                                        console.dir(event);
+                                    }
+                                }
+                            },
+                            series: {
+                                turboThreshold: 4000
+                            }
+                        },
+                        series: [
+                        {
+                            mapData: countiesMap,
+                            data,
+                            joinBy: ['fips', 'fips'],
+                            name: 'Covid-19 Infections',
+                            borderWidth: 0.5,
+                            states: {
+                                hover: {
+                                    color: '#a4edba',
+                                }
+                            },
+                            shadow: false
+                        } as any, 
+                        {
+                            type: 'mapline',
+                            name: 'State Borders',
+                            data: borderLines,
+                            color: 'white',
+                            shadow: false
+                        }, {
+                            type: 'mapline',
+                            name: 'Separator',
+                            data: separatorLines,
+                            color: 'gray',
+                            shadow: false
+                        }
+                    ]
+                    };
 
                     return {
-                        data: [data],
-                        layout: {
-                            dragmode: 'zoom',
-                            mapbox: {
-                                style: 'carto-positron',
-                                layers: [{
-                                    source: spatialData,
-                                    type: 'fill',
-                                    below: 'traces',
-                                    color: '#fff'
-                                }],
-                                below: 'traces',
-                                center: {
-                                    lat: 39,
-                                    lon: -98,
-                                },
-                                zoom: 3.5,
-                            },
-                            margin: { r: 0, t: 0, b: 0, l: 0 },
-                            showlegend: false
-                        },
-                        config: {
-                            // mapboxAccessToken: 'pk.eyJ1IjoiZHJld3BheW1lbnQiLCJhIjoiY2s4bm5sMWc2MGJ6OTNtcW9ra21hNWgzNyJ9._b2y0RuyiE-2hXP42nU1xw'
-                        }
+                        hc: Highcharts,
+                        options
                     };
-                }),
+                })
             );
     }
 
     private getMarkerColor(nums: number[], val: number) {
         const rank = this.getPercentileRank(nums, val);
         const perc = Math.ceil(coerceNumberProperty((rank * 100).toPrecision(2)));
-        
+
         if (perc <= 20) {
             return this.markerColors[0];
         } else if (perc > 20 && perc <= 40) {
@@ -153,7 +319,7 @@ export class ContagionComponent implements OnInit {
         const rand = val < 0.5
             ? ((1 - val) * (max - min) + min)
             : (val * (max - min) + min);
-        
+
         const pow = Math.pow(10, dec);
         return (Math.floor(rand * pow) / pow).toPrecision(dec);
     }
@@ -161,9 +327,9 @@ export class ContagionComponent implements OnInit {
     private groupBy(arr: any[], key: string, key2?: string, delimiter?: string) {
         delimiter = delimiter || ',';
         return arr.reduce((rv, x) => {
-            if (key2) 
+            if (key2)
                 (rv[x[key] + delimiter + x[key2]] = rv[x[key] + delimiter + x[key2]] || []).push(x);
-            else 
+            else
                 (rv[x[key]] = rv[x[key]] || []).push(x);
             return rv;
         }, {});
