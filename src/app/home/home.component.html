@@ -1,7 +1,36 @@
 
 <ng-template #tpl let-isMobile="isMobile">
     <div class="container px-7">
-        <div class="row">
+        <div class="row banner-row" *ngIf="covid$|async as covid">
+            <div class="six columns">
+                <h1 class="text-color-accent">Global Pandemic Status</h1>
+                <p>
+                    <strong>Confirmed: {{ covid.cases | number }}</strong>
+                </p>
+                <p>
+                    <strong>Deaths: {{ covid.deaths | number }}</strong>
+                </p>
+                <p>
+                    <strong>Recovered: {{ covid.recovered | number }}</strong>
+                </p>
+                <p class="font-xs">
+                    UPDATED: {{ covid.updated | date: 'short' }}
+                </p>
+            </div>
+            <div class="six columns" [class.hero-secondary-row]="!isMobile">
+                <p>
+                    Quick Links
+                </p>
+                <p>
+                    <a [routerLink]="['contagion']">US Counties Map</a>
+                </p>
+                <p>
+                    <a [routerLink]="['countries']">Countries Reports</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row hero-secondary-row">
             <div class="six columns" [class.p-t-6]="!isMobile">
                 <h1 class="mat-display-3 mb-0 text-center">Stay Home.</h1>
                 <h1 class="mat-display-3 mb-0 text-center">Stay Safe.</h1>

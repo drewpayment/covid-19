@@ -4,6 +4,10 @@
     margin-top: 10vh !important;
 }
 
+.hero-secondary-row {
+    margin-top: 5vh !important;
+}
+
 .symptoms-row {
     @extend .hero-row;
 
@@ -14,4 +18,11 @@
     ul {
         font-size: 2rem;
     }
+}
+
+.banner-row {
+    @extend .symptoms-row;
+
+    background-color: lighten(material-get(primary-color), 15%) !important;
+    margin-top: unset !important;
 }
