@@ -17,6 +17,7 @@
     ],
     "skipLibCheck": true,
     "allowJs": true,
+    "types": ["node"]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

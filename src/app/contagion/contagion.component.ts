@@ -20,7 +20,7 @@ hc_data(Highcharts);
 boost(Highcharts);
 HC_acc(Highcharts);
 HC_map(Highcharts);
-
+declare var require: any;
 const US_MAP = require('@highcharts/map-collection/countries/us/us-all-all.geo.json');
 
 @Component({
