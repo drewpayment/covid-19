@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
         MatSidenavModule,
         MatSelectModule,
         MatGridListModule,
+        MatDialogModule,
     ],
     exports: [
         MatProgressSpinnerModule,
@@ -55,6 +57,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
         MatSidenavModule,
         MatSelectModule,
         MatGridListModule,
+        MatDialogModule,
     ]
 })
 export class MaterialModule {}

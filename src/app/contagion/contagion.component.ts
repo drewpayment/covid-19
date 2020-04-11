@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContagionService } from './contagion.service';
 import { map } from 'rxjs/operators';
 import { CountyCenter, CountyCases } from '../models';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import { PlotComponent } from 'angular-plotly.js';
 import * as moment from 'moment';
 import { coerceNumberProperty } from '@angular/cdk/coercion';
@@ -13,6 +13,9 @@ import HC_map from 'highcharts/modules/map';
 import HC_acc from 'highcharts/modules/accessibility';
 import boost from 'highcharts/modules/boost';
 import hc_data from 'highcharts/modules/data';
+import { MatDialog } from '@angular/material/dialog';
+import { CountyDialogComponent } from './county-dialog/county-dialog.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 hc_data(Highcharts);
 boost(Highcharts);
 HC_acc(Highcharts);
@@ -41,90 +44,22 @@ export class ContagionComponent implements OnInit {
      */
     hc$: Observable<any>;
     Highcharts: typeof Highcharts = Highcharts;
+    subs: Subscription[] = [];
 
-    constructor(private service: ContagionService, private numPipe: DecimalPipe) { }
+    hcClick = (event: any) => {
+        const fips = coerceNumberProperty(event.point.fips);
+        const filteredCases = this.cases.filter(c => c.fips == fips);
+        this.showCountyHistoricalDetailDialog(filteredCases);
+    }
+
+    constructor(
+        private service: ContagionService, 
+        private numPipe: DecimalPipe,
+        private dialog: MatDialog,
+        private breakpoint: BreakpointObserver
+    ) { }
 
     ngOnInit(): void {
-        // this.plot$ = combineLatest(this.service.getNYTimesCovidDataByCounty(), this.service.getCountySpatialData())
-        //     .pipe(
-        //         map(([result, spatialData]) => {
-        //             this.geo = result.geoData;
-        //             this.cases = result.countyCasesList;
-        //             const data = {
-        //                 type: 'scattermapbox',
-        //                 mode: 'markers',
-        //                 text: [],
-        //                 lon: [],
-        //                 lat: [],
-        //                 zmin: 0,
-        //                 zmid: 10,
-        //                 zmax: 50,
-        //                 z: [],
-        //                 marker: {
-        //                     color: '#491c0b',
-        //                     size: 4
-        //                 },
-        //                 radius: 10,
-        //                 hoverinfo: 'text'
-        //             };
-
-        //             this.lastUpdated = moment(this.cases[this.cases.length - 1].date);
-        //             const rawCases = this.cases.map(c => c.cases);
-        //             const grouped = this.groupBy(this.cases, 'fips');
-        //             const gLength = Object.keys(grouped).length;
-
-        //             this.percCountiesInfected = coerceNumberProperty((gLength / this.geo.length).toPrecision(4));
-        //             this.groupedByCounty = grouped;
-
-        //             for (const p in grouped) {
-        //                 const countyCases = grouped[p] as CountyCases[];
-        //                 const g = this.getGeoData(countyCases[0].fips);
-
-        //                 if (!g) continue;
-
-        //                 const c = countyCases[countyCases.length - 1];
-        //                 const markerColor = this.getMarkerColor(rawCases, c.cases);
-        //                 data.marker.color = markerColor;
-        //                 data.text.push(`${c.county} County - ${moment(c.date).format('MM/DD')} Cases: ${c.cases} Deaths: ${c.deaths}`);
-        //                 data.z.push(countyCases.length);
-        //                 data.lat.push(g.pclat10);
-        //                 data.lon.push(g.pclon10);
-        //             }
-
-        //             const largestZ = data.z.sort((a, b) => coerceNumberProperty(a) - coerceNumberProperty(b));
-        //             const largeNum = largestZ[largestZ.length - 1];
-        //             const removeIndex = data.z.findIndex(z => z == largeNum);
-        //             data.z = [...data.z.slice(0, removeIndex), ...data.z.slice(removeIndex + 1)];
-
-        //             return {
-        //                 data: [data],
-        //                 layout: {
-        //                     dragmode: 'zoom',
-        //                     mapbox: {
-        //                         style: 'carto-positron',
-        //                         layers: [{
-        //                             source: spatialData,
-        //                             type: 'fill',
-        //                             below: 'traces',
-        //                             color: '#fff'
-        //                         }],
-        //                         below: 'traces',
-        //                         center: {
-        //                             lat: 39,
-        //                             lon: -98,
-        //                         },
-        //                         zoom: 3.5,
-        //                     },
-        //                     margin: { r: 0, t: 0, b: 0, l: 0 },
-        //                     showlegend: false
-        //                 },
-        //                 config: {
-        //                     // mapboxAccessToken: 'pk.eyJ1IjoiZHJld3BheW1lbnQiLCJhIjoiY2s4bm5sMWc2MGJ6OTNtcW9ra21hNWgzNyJ9._b2y0RuyiE-2hXP42nU1xw'
-        //                 }
-        //             };
-        //         }),
-        //     );
-
 
         this.hc$ = combineLatest(this.service.getNYTimesCovidDataByCounty(), this.service.getCountySpatialData())
             .pipe(
@@ -228,9 +163,7 @@ export class ContagionComponent implements OnInit {
                             },
                             map: {
                                 events: {
-                                    click: (event) => {
-                                        console.dir(event);
-                                    }
+                                    click: this.hcClick
                                 }
                             },
                             series: {
@@ -273,6 +206,15 @@ export class ContagionComponent implements OnInit {
                     };
                 })
             );
+    }
+
+    private showCountyHistoricalDetailDialog(cases: CountyCases[]) {
+        this.subs.push(this.dialog.open(CountyDialogComponent, {
+            data: cases,
+            autoFocus: false,
+            width: this.breakpoint.isMatched(Breakpoints.Handset)
+                ? '100vw' : '70vw'
+        }).afterClosed().subscribe());
     }
 
     private getMarkerColor(nums: number[], val: number) {

@@ -22,6 +22,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ContagionComponent } from './contagion/contagion.component';
 import { DecimalPipe } from '@angular/common';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CountyDialogComponent } from './contagion/county-dialog/county-dialog.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -36,7 +37,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
         CountriesGraphComponent,
         HomeComponent,
         FooterComponent,
-        ContagionComponent
+        ContagionComponent,
+        CountyDialogComponent
     ],
     imports: [
         CommonModule,
@@ -52,6 +54,9 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
         // APP ROUTER
         AppRouterModule
+    ],
+    entryComponents: [
+        CountyDialogComponent
     ],
     providers: [
         DecimalPipe
