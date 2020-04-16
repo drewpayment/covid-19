@@ -2,7 +2,7 @@
 <ng-container *ngIf="chartData$|async as charts">
     <div class="container" *ngIf="summary$|async as summary">
         <div class="row" *ngIf="country != null">
-            <div class="twelve columns"
+            <div class="col-12"
                 [class.css-grid]="!isMobile"
                 [class.justify-content-center]="!isMobile"
             >
@@ -49,7 +49,7 @@
         </div>
 
         <div class="row">
-            <div class="six columns flex" *ngIf="showStateControls">
+            <div class="col-6 d-flex" *ngIf="showStateControls">
                 <mat-form-field class="pr-2">
                     <mat-label>Currently Showing: </mat-label>
                     <mat-select [formControl]="graphSelect">
@@ -68,7 +68,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="twelve columns">
+            <div class="col-12">
                 <plotly-plot #plt
                     *ngIf="graphSelect?.value == 0"
                     [data]="plotlyGraph.data"
@@ -89,7 +89,7 @@
         </div>
         
         <div class="row">
-            <div class="twelve columns">
+            <div class="col-12">
                 <p class="font-color-accent">
                     Last Updated: {{ summary?.updated | date: 'short' }}
                 </p>
