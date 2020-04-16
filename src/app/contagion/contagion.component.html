@@ -1,23 +1,16 @@
 
 <div class="container">
     <div class="row">
-        <div class="twelve columns">
+        <div class="col-12">
             <h1 class="mat-display-2 text-color-accent text-center" *ngIf="percCountiesInfected">
                 {{ percCountiesInfected | percent:'2.0-2' }} Counties Infected in US 
             </h1>
         </div>
     </div>
-    <div class="row">
-        <div class="twelve columns">
-            <!-- <ng-container *ngIf="plot$|async as plot">
-                <plotly-plot #plt
-                    [data]="plot.data"
-                    [layout]="plot.layout"
-                    [config]="plot.config"
-                ></plotly-plot>
-            </ng-container> -->
+    <div class="row justify-content-center">
+        <div class="col-auto">
             <ng-container *ngIf="hc$|async as hc">
-                <div style="min-height: 600px !important; width: 100% !important;">
+                <div style="min-height: 600px !important; width: auto !important;">
                     <highcharts-chart
                         [Highcharts]="hc.hc"
                         [options]="hc.options"

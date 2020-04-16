@@ -38,6 +38,7 @@
     "@types/node": "^12.12.35",
     "angular-material-dynamic-themes": "^1.0.4",
     "angular-plotly.js": "^2.0.0",
+    "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "heatmap.js": "^2.0.5",
     "highcharts": "^8.0.4",

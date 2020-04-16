@@ -1,37 +1,64 @@
 
 <ng-template #tpl let-isMobile="isMobile">
-    <div class="container px-7">
-        <div class="row banner-row" *ngIf="covid$|async as covid">
-            <div class="six columns">
-                <h1 class="text-color-accent">Global Pandemic Status</h1>
-                <p>
-                    <strong>Confirmed: {{ covid.cases | number }}</strong>
-                </p>
-                <p>
-                    <strong>Deaths: {{ covid.deaths | number }}</strong>
-                </p>
-                <p>
-                    <strong>Recovered: {{ covid.recovered | number }}</strong>
-                </p>
-                <p class="font-xs">
-                    UPDATED: {{ covid.updated | date: 'short' }}
-                </p>
-            </div>
-            <div class="six columns" [class.hero-secondary-row]="!isMobile">
-                <p>
-                    Quick Links
-                </p>
-                <p>
-                    <a [routerLink]="['contagion']">US Counties Map</a>
-                </p>
-                <p>
-                    <a [routerLink]="['countries']">Countries Reports</a>
-                </p>
+    <div class="container">
+        <div class="row" *ngIf="covid$|async as covid" [class.pt-4]="isMobile">
+            <div class="col-12">
+                <div class="jumbotron hero-bg">
+                    <h1 class="display-4 text-color-accent">Global Pandemic Status</h1>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>
+                                <strong>Confirmed: {{ covid.cases | number }}</strong>
+                            </p>
+                            <p>
+                                <strong>Deaths: {{ covid.deaths | number }}</strong>
+                                <span class="px-1">({{ (covid.deaths / covid.cases) | percent }})</span>
+                            </p>
+                            <p>
+                                <strong>Recovered: {{ covid.recovered | number }}</strong>
+                                <span class="px-1">({{ (covid.recovered / covid.cases) | percent }})</span>
+                            </p>
+                            <p class="font-xs font-weight-light">
+                                UPDATED: {{ covid.updated | date: 'short' }}
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <strong>Active: {{ covid.active | number }}</strong>
+                                <span class="px-1">({{ (covid.active / covid.cases) | percent }})</span>
+                            </p>
+                            <p>
+                                <strong>Critical: {{ covid.critical | number }}</strong>
+                                <span class="px-1">({{ (covid.critical / covid.active) | percent }})</span>
+                            </p>
+                            <p>
+                                <strong>Tests Per One Million: {{ covid.testsPerOneMillion | number: '1.0-0' }}</strong>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                Quick Links
+                            </p>
+                            <p>
+                                <a [routerLink]="['contagion']">US Counties Map</a>
+                            </p>
+                            <p>
+                                <a [routerLink]="['countries']">Countries Reports</a>
+                            </p>
+                            <p>
+                                <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters"
+                                    target="_blank">
+                                    WHO Myth Busters
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row hero-secondary-row">
-            <div class="six columns" [class.p-t-6]="!isMobile">
+            <div class="col-md-6" [class.p-t-6]="!isMobile">
                 <h1 class="mat-display-3 mb-0 text-center">Stay Home.</h1>
                 <h1 class="mat-display-3 mb-0 text-center">Stay Safe.</h1>
                 <h1 class="mat-display-3 mb-4 text-center">Save Lives.</h1>
@@ -41,39 +68,41 @@
                     most susceptible.
                 </p>
             </div>
-            <div class="six columns">
+            <div class="col-md-6">
                 <img src="assets/images/reading_a_book.svg" width="95%">
             </div>
         </div>
     
-        <div class="row px-7 symptoms-row">
-            <div class="twelve columns">
-                <h1 class="mat-display-2 text-center text-color-accent">
-                    Watch for Symptoms of Coronavirus
-                </h1>
-            </div>
-            <div class="twelve columns">
-                <p>
-                    Reported illnesses have ranged from mild symptoms to severe illness and 
-                    death confirmed coronavirus disease 2019 (COVID-19) cases.
-                </p>
-                <p>
-                    These symptoms may appear <strong>2-14 days after after exposure</strong>
-                    (based on the incubation period of MERS-CoV viruses):
-                </p>
-                <ul>
-                    <li>Fever</li>
-                    <li>Cough</li>
-                    <li>Shortness of breath</li>
-                </ul>
+        <div class="row hero-secondary-row">
+            <div class="col-12">
+                <div class="jumbotron hero-bg">
+                    <h1 class="display-2 text-color-accent">Watch for Symptoms of Coronavirus</h1>
+                    <p class="lead">
+                        If you have fever, cough and difficulty breathing seek medical attention immediately.
+                    </p>
+                    <hr class="my-4">
+                    <p>
+                        Reported illnesses have ranged from mild symptoms to severe illness and 
+                        death confirmed coronavirus disease 2019 (COVID-19) cases.
+                    </p>
+                    <p>
+                        These symptoms may appear <strong>2-14 days after after exposure</strong>
+                        (based on the incubation period of MERS-CoV viruses):
+                    </p>
+                    <ul>
+                        <li>Fever</li>
+                        <li>Cough</li>
+                        <li>Shortness of breath</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
         <div class="row px-7 hero-row">
-            <div class="six columns">
+            <div class="col-md-6">
                 <img src="assets/images/green/doctor.svg" width="80%">
             </div>
-            <div class="six columns">
+            <div class="col-md-6">
                 <h1 class="mat-display-1 text-center text-color-accent">When to Seek Medical Attention</h1>
                 <p>
                     If you develop the <strong>emergency warning signs</strong> for COVID-19 

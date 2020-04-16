@@ -8,6 +8,15 @@ export interface CoronaSummary {
     deaths: number;
     recovered: number;
     updated: Date | Moment | string;
+    todayCases: number;
+    todayDeaths: number;
+    active: number;
+    critical: number;
+    casesPerOneMillion: number;
+    deathsPerOneMillion: number;
+    tests: number;
+    testsPerOneMillion: number;
+    affectedCountries: number;
 }
 
 export interface CoronaCountry {

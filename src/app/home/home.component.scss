@@ -8,6 +8,10 @@
     margin-top: 5vh !important;
 }
 
+.hero-bg {
+    background-color: material-get(primary-color) !important;
+}
+
 .symptoms-row {
     @extend .hero-row;
 
@@ -16,7 +20,7 @@
     border-radius: 1rem;
 
     ul {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 }
 
