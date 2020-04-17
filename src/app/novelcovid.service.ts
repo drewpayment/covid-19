@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as covid from 'novelcovid';
 import { CoronaSummary, CoronaCountry, CoronaState, CountryHistorical } from './models';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import * as moment from 'moment';
@@ -12,6 +11,9 @@ interface CacheInfo {
     hasCountries: boolean;
     summaryUpdated: moment.Moment | null;
     hasSummary: boolean;
+    hasStates: boolean;
+    states: BehaviorSubject<CoronaState[]>;
+    statesUpdated: moment.Moment | null;
     summary: BehaviorSubject<CoronaSummary>;
     hasHistoricalCountries: boolean;
     historicalCountries: BehaviorSubject<CountryHistorical[]>;
@@ -23,7 +25,8 @@ const WORLD_METERS = 'https://corona.lmao.ninja/v2';
 export enum CACHE_TYPE {
     COUNTRIES,
     SUMMARY,
-    COUNTRIES_HISTORY
+    COUNTRIES_HISTORY,
+    STATES
 }
 
 @Injectable({
@@ -34,8 +37,10 @@ export class NovelCovidService {
     private cacheInfo = {
         countries: new BehaviorSubject<CoronaCountry[]>(null),
         summary: new BehaviorSubject<CoronaSummary>(null),
+        states: new BehaviorSubject<CoronaState[]>(null),
         hasCountries: false, 
         hasSummary: false,
+        hasStates: false,
         countriesUpdated: null,
         summaryUpdated: null,
         hasHistoricalCountries: false,
@@ -48,37 +53,25 @@ export class NovelCovidService {
     getSummary(): Observable<CoronaSummary> {
         if (this.isSummaryCacheValid())
             return this.cacheInfo.summary.asObservable();
-
-        return new Observable((ob) => {
-            covid.getAll().then((result: CoronaSummary) => {
-                result.updated = moment(result.updated);
-                this.addToCache(CACHE_TYPE.SUMMARY, result);
-                ob.next(result);
-                ob.complete();
-            });
-        });
+        
+        return this.http.get<CoronaSummary>(`${WORLD_METERS}/all`)
+            .pipe(tap(result => this.addToCache(CACHE_TYPE.SUMMARY, result)));
     }
 
     getCountries(country?: string): Observable<CoronaCountry[]> {
         if (this.isCountryCacheValid()) 
             return this.cacheInfo.countries.asObservable();
 
-        return new Observable((ob) => {
-            covid.getCountry(country).then(result => {
-                this.addToCache(CACHE_TYPE.COUNTRIES, result);
-                ob.next(result);
-                ob.complete();
-            });
-        });
+        return this.http.get<CoronaCountry[]>(`${WORLD_METERS}/countries`)
+            .pipe(tap(result => this.addToCache(CACHE_TYPE.COUNTRIES, result)));
     }
 
     getStates(state?: string): Observable<CoronaState[]> {
-        return new Observable((ob) => {
-            covid.getState(state).then(result => {
-                ob.next(result);
-                ob.complete();
-            });
-        });
+        if (this.isStateCacheValid())
+            return this.cacheInfo.states.asObservable();
+
+        return this.http.get<CoronaState[]>(`${WORLD_METERS}/states`)
+            .pipe(tap(result => this.addToCache(CACHE_TYPE.STATES, result)));
     }
 
     getCountry(id: number): Observable<CoronaCountry> {
@@ -106,6 +99,10 @@ export class NovelCovidService {
 
         return this.http.get<CountryHistorical[]>(url)
             .pipe(tap(countries => this.addToCache(CACHE_TYPE.COUNTRIES_HISTORY, countries)));
+    }
+
+    private isStateCacheValid(): boolean {
+        return this.cacheInfo.hasStates && !this.isCacheExpired(CACHE_TYPE.STATES);
     }
 
     private isCountryCacheValid(): boolean {
