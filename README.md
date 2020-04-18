@@ -1,27 +1,15 @@
-# Covid
+# COVID-19
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
+Angular 9 web application for up-to-date covid-19 cases globally with detail information, mapping and graphing 
+visualizations down to US counties. 
 
-## Development server
+[![stopcovid.dev](https://i.imgur.com/1RWlzGZ.png)](https://stopcovid.dev)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+[![stopcovid.dev/contagion](https://i.imgur.com/eZKCF83.png)](https://stopcovid.dev/contagion)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Data Resources
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- [NovelCOVID/API](https://github.com/NovelCOVID/API) - API for Current cases and more stuff about COVID-19 or the Novel Coronavirus Strain
+- [John Hopkins University](https://coronavirus.jhu.edu/) - Coronavirus Resource Center
