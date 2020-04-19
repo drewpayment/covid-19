@@ -6,6 +6,7 @@ import { VideoIntroComponent } from './video-intro/video-intro.component';
 import { CountryDetailComponent } from './country-detail/country-detail.component';
 import { HomeComponent } from './home/home.component';
 import { ContagionComponent } from './contagion/contagion.component';
+import { TopTenComponent } from './top-ten/top-ten.component';
 
 const routes: Route[] = [
     {
@@ -19,6 +20,10 @@ const routes: Route[] = [
     {
         path: 'contagion',
         component: ContagionComponent
+    },
+    {
+        path: 'rankings',
+        component: TopTenComponent
     },
     {
         path: 'countries',

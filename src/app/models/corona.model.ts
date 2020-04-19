@@ -21,15 +21,20 @@ export interface CoronaSummary {
 
 export interface CoronaCountry {
     country: string;
+    continent: string;
     cases: number;
     todayCases: number;
     deaths: number;
+    deathsPerOneMillion: number;
+    tests: number;
+    testsPerOneMillion: number;
     todayDeaths: number;
     recovered: number;
     active: number;
     critical: number;
     casesPerOneMillion: number;
     countryInfo: CoronaCountryInfo;
+    updated: number;
 }
 
 export interface CoronaState {

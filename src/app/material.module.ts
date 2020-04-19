@@ -17,6 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatSelectModule,
         MatGridListModule,
         MatDialogModule,
+        MatPaginatorModule,
     ],
     exports: [
         MatProgressSpinnerModule,
@@ -58,6 +60,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatSelectModule,
         MatGridListModule,
         MatDialogModule,
+        MatPaginatorModule,
     ]
 })
 export class MaterialModule {}

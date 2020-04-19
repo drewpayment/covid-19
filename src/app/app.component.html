@@ -11,7 +11,11 @@
             <mat-nav-list>
                 <a mat-list-item [routerLink]="['']" (click)="nav.toggle()">
                     <mat-icon matListIcon>near_me</mat-icon>
-                    <span>Covid19</span>
+                    <span>Covid-19</span>
+                </a>
+                <a mat-list-item [routerLink]="['rankings']" (click)="nav.toggle()">
+                    <mat-icon matListIcon>emoji_events</mat-icon>
+                    <span>Rankings</span>
                 </a>
                 <a mat-list-item [routerLink]="['contagion']" (click)="nav.toggle()">
                     <span class="iconify" data-icon="mdi:allergy" data-inline="false" matListIcon></span>
@@ -29,11 +33,6 @@
         </mat-sidenav>
         <mat-sidenav-content>
             <mat-toolbar class="mat-elevation-z1 app-nav">
-                <!-- <ng-container *ngIf="(isHomepage$|async) == false">
-                    <button type="button" mat-icon-button (click)="goBack()">
-                        <mat-icon>arrow_back</mat-icon>
-                    </button>
-                </ng-container> -->
                 <button type="button" mat-icon-button (click)="nav.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
@@ -63,11 +62,13 @@
 
             <div class="spacer"></div>
             <!-- LINKS -->
-            <a mat-button [routerLink]="['intro']">About</a>
+            <a mat-button [routerLink]="['rankings']">Rankings</a>
 
             <a mat-button [routerLink]="['contagion']">Contagion</a>
 
             <a mat-button [routerLink]="['countries']">Live Updates</a>
+
+            <a mat-button [routerLink]="['intro']">About</a>
 
             <a mat-stroked-button *ngIf="false" color="accent" [routerLink]="['donate']">Donate</a>
 

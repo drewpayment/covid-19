@@ -1,0 +1,66 @@
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center" [class.my-2]="isMobile" [class.mb-4]="!isMobile">
+                <h1 class="mat-display-2 text-color-accent m-0">Rankings</h1>
+                <span *ngIf="updated != null" class="text-center">
+                    Updated: {{ updated | date: 'short' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <ng-container *ngTemplateOutlet="countriesTable; context: activeCtx"></ng-container>
+        </div>
+        <div class="col-md-6" [class.pt-4]="isMobile">
+            <ng-container *ngTemplateOutlet="countriesTable; context: deathCtx"></ng-container>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 pt-4">
+            <ng-container *ngTemplateOutlet="countriesTable; context: critCtx"></ng-container>
+        </div>
+        <div class="col-md-6 pt-4">
+            <ng-container *ngTemplateOutlet="countriesTable; context: recovCtx"></ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #countriesTable let-ds="dataSource" let-cols="columns" let-propName="casesProperty" let-page="pager"
+    let-headerStyle="header" let-tableDesc="tableDesc">
+    <mat-table [dataSource]="ds">
+        <ng-container matColumnDef="rank">
+            <mat-header-cell *matHeaderCellDef>Rank</mat-header-cell>
+            <mat-cell *matCellDef="let item">#{{ item.rank }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Country</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{ item.country }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cases">
+            <mat-header-cell *matHeaderCellDef>Cases</mat-header-cell>
+            <mat-cell *matCellDef="let item">{{ item[propName] | number }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tableDesc">
+            <mat-header-cell *matHeaderCellDef [attr.colspan]="3" class="justify-content-center">
+                {{ tableDesc }}
+            </mat-header-cell>
+        </ng-container>
+        
+        <mat-row mat-header-row *matHeaderRowDef="['tableDesc'];" [ngClass]="headerStyle"></mat-row>
+        <mat-row *matHeaderRowDef="cols" [ngClass]="headerStyle"></mat-row>
+        <mat-row *matRowDef="let row; columns: cols"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+        [id]="propName"
+        [pageSizeOptions]="page.pageSizeOptions" 
+        [pageSize]="page.pageSize" 
+        [length]="page.length" 
+        showFirstLastButtons></mat-paginator>
+</ng-template>

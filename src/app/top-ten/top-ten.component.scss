@@ -1,0 +1,31 @@
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$success:       $green !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$white:    #fff !default;
+
+.header-active {
+    background-color: $warning;
+}
+
+.header-deaths {
+    background-color: $danger;
+    color: $white;
+}
+
+.header-critical {
+    background-color: $orange;
+}
+
+.header-recovered {
+    background-color: $success;
+    color: $white;
+}
+
+.mat-header-cell {
+    font-size: 1.2rem !important;
+    color: $white;
+}
