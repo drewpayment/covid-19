@@ -54,7 +54,9 @@
         
         <mat-row mat-header-row *matHeaderRowDef="['tableDesc'];" [ngClass]="headerStyle"></mat-row>
         <mat-row *matHeaderRowDef="cols" [ngClass]="headerStyle"></mat-row>
-        <mat-row *matRowDef="let row; columns: cols"></mat-row>
+        <mat-row *matRowDef="let row; columns: cols" 
+            (click)="handleRowClick(row)" 
+            class="clickable-row"></mat-row>
     </mat-table>
 
     <mat-paginator

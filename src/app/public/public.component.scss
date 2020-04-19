@@ -60,7 +60,11 @@ tr.table-row-item {
 }
 
 .overflow-scroll-table {
-    max-height: 600px;
+    max-height: 450px;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.dashboard-row {
+    background-color: #fff;
 }

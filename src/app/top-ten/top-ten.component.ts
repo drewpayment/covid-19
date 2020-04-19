@@ -8,6 +8,7 @@ import { tap, map, startWith } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 interface CountryRanked extends CoronaCountry {
     rank: number;
@@ -75,7 +76,11 @@ export class TopTenComponent implements OnInit, AfterViewInit, OnDestroy {
     subs: Subscription[] = [];
     updated: Moment;
 
-    constructor(private service: NovelCovidService, private breakpoint: BreakpointObserver) { }
+    constructor(
+        private service: NovelCovidService, 
+        private breakpoint: BreakpointObserver,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
         this.subs.push(this.breakpoint.observe([ Breakpoints.Handset ])
@@ -89,7 +94,7 @@ export class TopTenComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.service.getCountries()
+        this.subs.push(this.service.getCountries()
             .pipe(
                 tap(countries => {
                     if (!countries) return;
@@ -119,7 +124,11 @@ export class TopTenComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.recovCtx.dataSource = this.createMatTableDataSource(recov, 'recovPag');
                     this.recovCtx.pager.length = recov.length;
                 })
-            ).subscribe();
+            ).subscribe());
+    }
+
+    handleRowClick(row: CoronaCountry) {
+        this.router.navigate(['country', row.countryInfo._id]);
     }
 
     private createMatTableDataSource<T>(data: T[], paginatorName?: string): MatTableDataSource<T> {

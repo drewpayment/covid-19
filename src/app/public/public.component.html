@@ -8,12 +8,14 @@
         <ng-container *ngIf="latest">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <h1 class="mat-display-2 mb-0 text-center">
-                        Countries Infected
-                    </h1>
-                    <p class="text-color-accent text-center">
-                        Click a country below to see details
-                    </p>
+                    <div class="my-2">
+                        <h1 class="mat-display-2 mb-0 text-center text-color-accent">
+                            Countries Infected
+                        </h1>
+                        <p class="text-center">
+                            Click a country below to see details
+                        </p>
+                    </div>
                 </div>
                 <!-- <div class="six columns"> -->
                 <!-- <h1 class="mat-display-2 mb-0">
@@ -60,113 +62,116 @@
             <!-- </div> -->
         </ng-container>
 
-        <div class="row justify-content-center mb-4">
-            <div class="col-9">
+        <div class="row dashboard-row">
+            <div class="col-md-5">
                 <app-countries-graph></app-countries-graph>
                 <p class="font-xs font-italic">
                     Updated: {{ latest.updated | date: 'short' }}
                 </p>
             </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div [class.overflow-scroll-table]="isWebViewEnabled && !isMobilePotrait">
-                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1" (matSortChange)="sortTable($event)"
-                    [matSortActive]="'cases'" [matSortDirection]="'desc'">
-
-                    <ng-container matColumnDef="country">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
-                        <td mat-cell *matCellDef="let item" class="">
-                            <img [src]="item.countryInfo.flag" [alt]="item.countryInfo.country" class="img-small" />
-                            <span>{{ item.country }}</span>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="cases">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Confirmed'">
-                            <mat-icon inline="true">assignment_turned_in</mat-icon>
-                            <span>Cases</span>
-                        </th>
-                        <td mat-cell *matCellDef="let item">
-                            {{ item.cases | number }}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="deaths">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                            <mat-icon inline="true">report_problem</mat-icon>
-                            <span>Deaths</span>
-                        </th>
-                        <td mat-cell *matCellDef="let item">{{ item.deaths | number }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="search">
-                        <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="displayColumns.length">
-                            <mat-form-field appearance="outline" class="search-input">
-                                <mat-label>Search</mat-label>
-                                <input matInput type="text" [formControl]="filter" />
-                                <mat-icon *ngIf="!filter.value" matSuffix>search</mat-icon>
-                                <button type="button" mat-icon-button *ngIf="filter.value && filter.value.length"
-                                    matSuffix (click)="filter.setValue(null)">
-                                    <mat-icon>backspace</mat-icon>
-                                </button>
-                            </mat-form-field>
-                        </th>
-                    </ng-container>
-
-                    <ng-container matColumnDef="todayCases">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Cases Today'">
-                            Cases
-                        </th>
-                        <td mat-cell *matCellDef="let item">{{ item.todayCases | number }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="todayDeaths">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Deaths Today'">
-                            Deaths
-                        </th>
-                        <td mat-cell *matCellDef="let item">{{ item.todayDeaths | number }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="active">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Active'">
-                            Active
-                        </th>
-                        <td mat-cell *matCellDef="let item">{{ item.active | number }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="recovered">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Recovered'">
-                            Recovered
-                        </th>
-                        <td mat-cell *matCellDef="let item">{{ item.recovered | number }}</td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="sp">
-                        <th mat-header-cell *matHeaderCellDef [attr.colspan]="1">&nbsp;</th>
-                    </ng-container>
-
-                    <ng-container matColumnDef="today">
-                        <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="2">
-                            Today
-                        </th>
-                    </ng-container>
-
-                    <ng-container matColumnDef="over">
-                        <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="4">
-                            Overall
-                        </th>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="['search']; sticky: true;"></tr>
-                    <ng-container *ngIf="isWebViewEnabled">
-                        <tr mat-header-row *matHeaderRowDef="['sp', 'today', 'over']; sticky: true;"></tr>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true;"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayColumns;" class="table-row-item" (click)="goToDetail(row);"></tr>
-                </table>
+            <div class="col-md-7">
+                <div [class.overflow-scroll-table]="isWebViewEnabled && !isMobilePotrait">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1" (matSortChange)="sortTable($event)"
+                        [matSortActive]="'cases'" [matSortDirection]="'desc'">
+    
+                        <ng-container matColumnDef="country">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+                            <td mat-cell *matCellDef="let item" class="">
+                                <img [src]="item.countryInfo.flag" [alt]="item.countryInfo.country" class="img-small" />
+                                <span>{{ item.country }}</span>
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="cases">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Confirmed'">
+                                <mat-icon inline="true">assignment_turned_in</mat-icon>
+                                <span>Cases</span>
+                            </th>
+                            <td mat-cell *matCellDef="let item">
+                                {{ item.cases | number }}
+                            </td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="deaths">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                <mat-icon inline="true">report_problem</mat-icon>
+                                <span>Deaths</span>
+                            </th>
+                            <td mat-cell *matCellDef="let item">{{ item.deaths | number }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="search">
+                            <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="displayColumns.length">
+                                <mat-form-field appearance="outline" class="search-input">
+                                    <mat-label>Search</mat-label>
+                                    <input matInput type="text" [formControl]="filter" />
+                                    <mat-icon *ngIf="!filter.value" matSuffix>search</mat-icon>
+                                    <button type="button" mat-icon-button *ngIf="filter.value && filter.value.length"
+                                        matSuffix (click)="filter.setValue(null)">
+                                        <mat-icon>backspace</mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            </th>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="todayCases">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Cases Today'">
+                                Cases
+                            </th>
+                            <td mat-cell *matCellDef="let item">{{ item.todayCases | number }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="todayDeaths">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Deaths Today'">
+                                Deaths
+                            </th>
+                            <td mat-cell *matCellDef="let item">{{ item.todayDeaths | number }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="active">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Active'">
+                                Active
+                            </th>
+                            <td mat-cell *matCellDef="let item">{{ item.active | number }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="recovered">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header [matTooltip]="'Recovered'">
+                                Recovered
+                            </th>
+                            <td mat-cell *matCellDef="let item">{{ item.recovered | number }}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="sp">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="1">&nbsp;</th>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="today">
+                            <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="2">
+                                Today
+                            </th>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="over">
+                            <th mat-header-cell *matHeaderCellDef [style.text-align]="'center'" [attr.colspan]="4">
+                                Overall
+                            </th>
+                        </ng-container>
+    
+                        <tr mat-header-row *matHeaderRowDef="['search']; sticky: true;"></tr>
+                        <ng-container *ngIf="isWebViewEnabled">
+                            <tr mat-header-row *matHeaderRowDef="['sp', 'today', 'over']; sticky: true;"></tr>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayColumns;" class="table-row-item" (click)="goToDetail(row);"></tr>
+                    </table>
+                </div>
             </div>
         </div>
+
+        <!-- <div class="row justify-content-center">
+            
+        </div> -->
     </ng-container>
     
 </div>

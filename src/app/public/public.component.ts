@@ -56,16 +56,16 @@ export class PublicComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subs.push(this.bo.observe([ Breakpoints.HandsetLandscape, Breakpoints.Web ])
-        .subscribe(state => {
-            this.isWebViewEnabled = state.matches;
+            .subscribe(state => {
+                this.isWebViewEnabled = state.matches;
 
-            if (state.matches) {
-                this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
-            } else {
-                this.displayColumns = ['country', 'cases', 'deaths'];
-                this.isMobilePotrait = state.breakpoints[Breakpoints.HandsetPortrait];
-            }
-        }));
+                if (state.matches) {
+                    this.displayColumns = ['country', 'todayCases', 'todayDeaths', 'cases', 'active', 'deaths', 'recovered'];
+                } else {
+                    this.displayColumns = ['country', 'cases', 'deaths'];
+                    this.isMobilePotrait = state.breakpoints[Breakpoints.HandsetPortrait];
+                }
+            }));
         
         this.dataSource.sort = this.sort;
 
