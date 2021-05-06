@@ -41,7 +41,7 @@
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "heatmap.js": "^2.0.5",
-    "highcharts": "^8.0.4",
+    "highcharts": "^9.0.0",
     "highcharts-angular": "^2.4.0",
     "material-design-icons": "^3.0.1",
     "moment": "^2.24.0",
